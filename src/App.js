@@ -27,7 +27,7 @@ const slides = [
 ];
 
 export default class App extends Component {
-  state = { showRealApp: false }
+  state = { showRealApp: true }
 
   render() {
     if (this.state.showRealApp) {

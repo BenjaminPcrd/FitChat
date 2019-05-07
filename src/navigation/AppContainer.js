@@ -1,4 +1,4 @@
-import { createMaterialTopTabNavigator, createAppContainer } from 'react-navigation';
+import { createDrawerNavigator, createMaterialTopTabNavigator, createAppContainer } from 'react-navigation';
 import React from "react";
 import VoiceBot from '../screens/VoiceBot';
 import Traxivity from '../screens/Traxivity';
@@ -7,6 +7,20 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import { YellowBox } from 'react-native';
 YellowBox.ignoreWarnings(['ViewPagerAndroid']);
+
+const TraxivityDrawer = createDrawerNavigator(
+  {
+    Traxivity: {
+      screen: Traxivity
+    },
+
+
+  },
+  {
+    initialRouteName: "Traxivity",
+
+  }
+);//contentComponent: props => <SideBar {...props} />
 
 const TabNavigator = createMaterialTopTabNavigator(
   {
@@ -18,7 +32,7 @@ const TabNavigator = createMaterialTopTabNavigator(
       }
     },
     Traxivity: {
-      screen : Traxivity,
+      screen : TraxivityDrawer,
       navigationOptions: {
         tabBarLabel: 'Traxivity',
         tabBarIcon: ({ focused, horizontal, tintColor }) => { return <MaterialIcons name={'directions-walk'} size={25} color={tintColor} /> }
