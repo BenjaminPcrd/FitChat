@@ -10,6 +10,7 @@
     "native-base": "^2.12.1",
     "react": "16.8.3",
     "react-native": "0.59.5",
+    "react-native-app-intro-slider": "^2.0.1",
     "react-native-gesture-handler": "^1.2.1",
     "react-native-google-fit": "^0.9.12",
     "react-native-progress-circle": "^2.0.1",
