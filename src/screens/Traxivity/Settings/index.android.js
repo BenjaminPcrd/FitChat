@@ -77,6 +77,9 @@ class Settings extends Component {
             <Icon name="time" />
             <Text>End of day:   {this.props.endDayHour.pad(2)}:{this.props.endDayMinute.pad(2)}</Text>
           </Button>
+          <Button onPress={ () => this.props.navigation.navigate('Traxivity')} style={{alignSelf: 'center'}}>
+            <Text>OK</Text>
+          </Button>
         </Container>
       </Container>
     );

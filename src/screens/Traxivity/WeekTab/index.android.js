@@ -8,7 +8,6 @@ class WeekTab extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      nbSteps: null,
       tabStep: null
     }
   }
@@ -16,16 +15,22 @@ class WeekTab extends Component {
   componentDidMount() {
     var start = new Date()
     var end = new Date()
+    start.setDate(start.getDate())
+    end.setDate(end.getDate())
+    var nbDays = start.getDay();
+    if(nbDays == 0) nbDays = 7
+    start.setDate(start.getDate() - (nbDays-1))
+    end.setDate(end.getDate() + (6 - (nbDays-1)))
     start.setHours(0, 0, 0, 0)
     end.setHours(23, 59, 59, 999)
 
-    getPeriodStepCount(start, end, (error, result) => {
-      this.setState({ nbSteps: result[0].value })
+    getPeriodStepCount(start, end, null, (error, result, i) => {
+      this.setState({tabStep: result})
     })
   }
 
   render() {
-    return <WeekProgress nbSteps={this.state.nbSteps} tabStep={this.state.tabStep} />
+    return <WeekProgress tabStep={this.state.tabStep} />
   }
 }
 
