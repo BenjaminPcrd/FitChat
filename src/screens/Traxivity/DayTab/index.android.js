@@ -9,6 +9,7 @@ class DayTab extends Component {
     super(props)
     this.state = {
       nbSteps: null,
+      tabStep: null,
       nbCal: null,
       km: null
     }
@@ -19,26 +20,45 @@ class DayTab extends Component {
     GoogleFit.onAuthorize((res) => {
       var start = new Date()
       var end = new Date()
-      const UTC_OFFSET = start.getTimezoneOffset()/60
-      start.setHours(0 - UTC_OFFSET, 0, 0, 0)
-      end.setHours(23 - UTC_OFFSET, 59, 59, 999)
+      start.setHours(0, 0, 0, 0)
+      end.setHours(23, 59, 59, 999)
 
       getPeriodStepCount(start, end, (error, result) => {
-        this.setState({nbSteps: result[0].value})
+        this.setState({ nbSteps: result[0].value })
       })
 
       getDailyCalorieCount((error, result) => {
-        this.setState({nbCal: result });
+        this.setState({ nbCal: result });
       })
 
       getDailyDistanceCount((error, result) => {
-        this.setState({km: result });
+        this.setState({ km: result });
       })
+
+      this.getStepsByHours()
     })
   }
 
+  getStepsByHours() {
+    var tab = []
+    var start = new Date()
+    var end = new Date()
+    start.setHours(0, 0, 0, 0)
+    end.setHours(0, 59, 59, 999)
+    for(i = 0; i < 24; i++) {
+      start.setHours(i, 0, 0, 0)
+      end.setHours(i)
+      getPeriodStepCount(start, end, (error, result) => {
+        tab.push(result.length > 0 ? result[0].value : 0)
+        if(tab.length == 24) {
+          this.setState({tabStep: tab})
+        }
+      })
+    }
+  }
+
   render() {
-    return <DayProgress goal={this.props.goal} nbSteps={this.state.nbSteps} nbCal={this.state.nbCal} km={this.state.km} />
+    return <DayProgress goal={this.props.goal} nbSteps={this.state.nbSteps} tabStep={this.state.tabStep} nbCal={this.state.nbCal} km={this.state.km} />
   }
 }
 

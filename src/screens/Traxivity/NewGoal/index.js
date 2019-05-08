@@ -38,7 +38,6 @@ class NewGoal extends Component {
         {
           text: 'I agree',
           onPress: () => {
-            console.log('I agree Pressed')
             const action = { type: "SET_NEW_GOAL", value: Number(this.state.nbStep) }
             this.props.dispatch(action)
             this.props.navigation.navigate('Traxivity')
