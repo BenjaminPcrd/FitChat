@@ -16,32 +16,47 @@ class DayTab extends Component {
     getAuth()
   }
 
+  componentWillReceiveProps() {
+    this.setState({
+      nbSteps: null,
+      tabStep: null,
+      nbCal: null,
+      km: null
+    })
+    setTimeout(() => {
+      this.getInfos()
+    }, 10);
+  }
+
   componentDidMount() {
     GoogleFit.onAuthorize((res) => {
-      var start = new Date()
-      var end = new Date()
-      start.setHours(0, 0, 0, 0)
-      end.setHours(23, 59, 59, 999)
-      getPeriodStepCount(start, end, null, (error, result, i) => {
-        this.setState({ nbSteps: result[0].value })
-      })
-
-      getDailyCalorieCount((error, result) => {
-        this.setState({ nbCal: result });
-      })
-
-      getDailyDistanceCount((error, result) => {
-        this.setState({ km: result[0].distance/1000 });
-      })
-
-      this.getStepsByHours()
+      this.getInfos()
     })
+  }
+
+  getInfos() {
+    var start = new Date(this.props.selectedDay.getFullYear(), this.props.selectedDay.getMonth(), this.props.selectedDay.getDate(), 0, 0, 0, 0)
+    var end = new Date(this.props.selectedDay.getFullYear(), this.props.selectedDay.getMonth(), this.props.selectedDay.getDate(), 0, 0, 0, 0)
+    start.setHours(0, 0, 0, 0)
+    end.setHours(23, 59, 59, 999)
+    getPeriodStepCount(start, end, null, (error, result, i) => {
+      this.setState({ nbSteps: result[0] ? result[0].value : 0 })
+    })
+
+    getDailyCalorieCount(start, end, (error, result) => {
+      this.setState({ nbCal: result ? result : 0 });
+    })
+
+    getDailyDistanceCount(start, end, (error, result) => {
+      this.setState({ km: result ? result[0].distance/1000 : 0 });
+    })
+    this.getStepsByHours()
   }
 
   async getStepsByHours() {
     var tab = []
-    var start = new Date()
-    var end = new Date()
+    var start = new Date(this.props.selectedDay.getFullYear(), this.props.selectedDay.getMonth(), this.props.selectedDay.getDate(), 0, 0, 0, 0)
+    var end = new Date(this.props.selectedDay.getFullYear(), this.props.selectedDay.getMonth(), this.props.selectedDay.getDate(), 0, 0, 0, 0)
     for(i = 0; i < 24; i++) {
       start.setHours(i, 0, 0, 0)
       end.setHours(i, 59, 59, 999)

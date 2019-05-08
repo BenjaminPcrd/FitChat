@@ -12,17 +12,29 @@ class WeekTab extends Component {
     }
   }
 
+  componentWillReceiveProps() {
+    this.setState({
+      tabStep: null
+    })
+    setTimeout(() => {
+      this.getInfos()
+    }, 10);
+  }
+
   componentDidMount() {
-    var start = new Date()
-    var end = new Date()
+    this.getInfos()
+  }
+
+  getInfos() {
+    var start = new Date(this.props.selectedDay.getFullYear(), this.props.selectedDay.getMonth(), this.props.selectedDay.getDate(), 0, 0, 0, 0)
+    var end = new Date(this.props.selectedDay.getFullYear(), this.props.selectedDay.getMonth(), this.props.selectedDay.getDate(), 0, 0, 0, 0)
     start.setDate(start.getDate())
     end.setDate(end.getDate())
     var nbDays = start.getDay();
     if(nbDays == 0) nbDays = 7
     start.setDate(start.getDate() - (nbDays-1))
-    end.setDate(end.getDate() + (6 - (nbDays-1)))
     start.setHours(0, 0, 0, 0)
-    end.setHours(23, 59, 59, 999)
+    end.setHours(23, 59, 59, 999  )
 
     getPeriodStepCount(start, end, null, (error, result, i) => {
       this.setState({tabStep: result})

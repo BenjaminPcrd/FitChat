@@ -40,7 +40,7 @@ export function getPeriodStepCount(start, end, i, callback) {
     startDate: start,
     endDate: end
   };
-  
+
   /*GoogleFit.getDailyStepCountSamples(opt, (err, res) => {
     if(err) {
       callback(err, 0)
@@ -56,12 +56,7 @@ export function getPeriodStepCount(start, end, i, callback) {
   })
 }
 
-export function getDailyCalorieCount(callback) {
-  var start = new Date()
-  var end = new Date()
-  const UTC_OFFSET = start.getTimezoneOffset()/60
-  start.setHours(0 - UTC_OFFSET, 0, 0, 0)
-  end.setHours(23 - UTC_OFFSET, 59, 59, 999)
+export function getDailyCalorieCount(start, end, callback) {
   const opt = {
     startDate: start,
     endDate: end,
@@ -76,12 +71,7 @@ export function getDailyCalorieCount(callback) {
   });
 }
 
-export function getDailyDistanceCount(callback) {
-  var start = new Date()
-  var end = new Date()
-  const UTC_OFFSET = start.getTimezoneOffset()/60
-  start.setHours(0 - UTC_OFFSET, 0, 0, 0)
-  end.setHours(23 - UTC_OFFSET, 59, 59, 999)
+export function getDailyDistanceCount(start, end, callback) {
   const opt = {
     startDate: start,
     endDate: end

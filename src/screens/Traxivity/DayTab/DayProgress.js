@@ -51,12 +51,12 @@ export default class DayProgress extends Component {
 
   render() {
     const screenWidth = Dimensions.get('window').width
-    if(this.props.nbSteps && !this.isAnimationStart) {
+    if(this.props.nbSteps != null && !this.isAnimationStart) {
       this.isAnimationStart = true
       this.animate()
     }
 
-    if(!this.props.nbSteps) {
+    if(this.props.nbSteps == null) {
       return <Container style={{justifyContent: 'center'}}><Spinner color='blue'/></Container>
     }
 

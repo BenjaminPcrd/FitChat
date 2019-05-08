@@ -51,7 +51,7 @@ class NewGoal extends Component {
   render() {
     return (
       <Container>
-        <HeaderBar title='Set New Goal' icon='menu' onClick={ () => this.props.navigation.openDrawer() } />
+        <HeaderBar title='Set New Goal' onLeftButton={ () => this.props.navigation.openDrawer() } />
         <Container style={{margin: 20}} >
           <Container style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
             <Text style={{fontSize: 20}}>Week's goal: {this.props.goal} steps per day.</Text>

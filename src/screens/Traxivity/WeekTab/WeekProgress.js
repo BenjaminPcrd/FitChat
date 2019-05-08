@@ -3,15 +3,20 @@ import { FlatList } from 'react-native';
 import {
   Container,
   Text,
-  ListItem
+  ListItem,
+  Spinner
 } from "native-base";
 
 export default class WeekProgress extends Component {
   render() {
     const arrSum = arr => arr.reduce((a,b) => a + b, 0)
-    const arrAvg = arr => arr.reduce((a,b) => a + b, 0) / arr.length
+    const arrAvg = arr => (arr.reduce((a,b) => a + b, 0) / arr.length).toFixed(0)
     const day = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+
+    if(this.props.tabStep == null) {
+      return <Container style={{justifyContent: 'center'}}><Spinner color='blue'/></Container>
+    }
     return (
       <Container>
         <Container style={{flex: 1, alignItems: 'center', justifyContent: 'space-evenly'}}>
