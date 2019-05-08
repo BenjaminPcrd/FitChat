@@ -10,6 +10,7 @@ import {
 import SideBar from './SideBar'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import DayTab from './DayTab'
+import WeekTab from './WeekTab'
 
 export default class Traxivity extends Component {
   render() {
@@ -21,7 +22,7 @@ export default class Traxivity extends Component {
             <DayTab />
           </Tab>
           <Tab heading={ <TabHeading><Icon name="calendar-week" size={25} color={"white"}/><Text>Week</Text></TabHeading>}>
-            <Text>Week tab</Text>
+            <WeekTab />
           </Tab>
         </Tabs>
       </Container>

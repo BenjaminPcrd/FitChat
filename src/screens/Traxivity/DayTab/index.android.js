@@ -22,8 +22,7 @@ class DayTab extends Component {
       var end = new Date()
       start.setHours(0, 0, 0, 0)
       end.setHours(23, 59, 59, 999)
-
-      getPeriodStepCount(start, end, (error, result) => {
+      getPeriodStepCount(start, end, null, (error, result, i) => {
         this.setState({ nbSteps: result[0].value })
       })
 
@@ -32,25 +31,23 @@ class DayTab extends Component {
       })
 
       getDailyDistanceCount((error, result) => {
-        this.setState({ km: result });
+        this.setState({ km: result[0].distance/1000 });
       })
 
       this.getStepsByHours()
     })
   }
 
-  getStepsByHours() {
+  async getStepsByHours() {
     var tab = []
     var start = new Date()
     var end = new Date()
-    start.setHours(0, 0, 0, 0)
-    end.setHours(0, 59, 59, 999)
     for(i = 0; i < 24; i++) {
       start.setHours(i, 0, 0, 0)
-      end.setHours(i)
-      getPeriodStepCount(start, end, (error, result) => {
-        tab.push(result.length > 0 ? result[0].value : 0)
-        if(tab.length == 24) {
+      end.setHours(i, 59, 59, 999)
+      getPeriodStepCount(start, end, i, (error, result, i) => {
+        tab[i] = result.length > 0 ? result[0].value : 0
+        if(typeof(tab[23]) != "undefined") {
           this.setState({tabStep: tab})
         }
       })

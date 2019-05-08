@@ -22,7 +22,8 @@ Scopes.FITNESS_REPRODUCTIVE_HEALTH_READ_WRITE
 export function getAuth() {
   const options = {
     scopes: [
-      Scopes.FITNESS_ACTIVITY_READ
+      Scopes.FITNESS_ACTIVITY_READ,
+      Scopes.FITNESS_LOCATION_READ,
     ],
   }
   GoogleFit.authorize(options)
@@ -34,17 +35,24 @@ export function getAuth() {
    })
 }
 
-export function getPeriodStepCount(start, end, callback) {
+export function getPeriodStepCount(start, end, i, callback) {
   const opt = {
     startDate: start,
     endDate: end
   };
-  GoogleFit.getDailyStepCountSamples(opt, (err, res) => {
+  
+  /*GoogleFit.getDailyStepCountSamples(opt, (err, res) => {
     if(err) {
       callback(err, 0)
     } else (
       callback(false, res.filter(obj => obj.source === "com.google.android.gms:estimated_steps")[0].steps)
     )
+  })*/
+
+  GoogleFit.getDailyStepCountSamples(opt).then((res) => {
+    callback(false, res.filter(obj => obj.source === "com.google.android.gms:estimated_steps")[0].steps, i)
+  }).catch((err) => {
+    callback(err, 0, i)
   })
 }
 
@@ -63,7 +71,7 @@ export function getDailyCalorieCount(callback) {
     if(err) {
       callback(err, 0)
     } else (
-      callback(false, res[0].calorie.toFixed(0))
+      callback(false, res[0].calorie)
     )
   });
 }

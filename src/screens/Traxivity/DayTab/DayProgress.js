@@ -44,7 +44,7 @@ export default class DayProgress extends Component {
         circleProgressValue: res.value*(this.props.nbSteps/this.props.goal)*100,
         stepsProgressValue: (res.value*this.props.nbSteps).toFixed(0),
         calProgressValue: (res.value*this.props.nbCal).toFixed(0),
-        kmProgressValue: (res.value*this.props.km).toFixed(0)
+        kmProgressValue: (res.value*this.props.km).toFixed(2)
       })
     })
   }
