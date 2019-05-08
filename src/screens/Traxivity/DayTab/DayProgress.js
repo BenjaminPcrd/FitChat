@@ -11,7 +11,10 @@ export default class DayProgress extends Component {
     super(props)
     this.animatedValue = new Animated.Value(0)
     this.state = {
-      circleProgressValue: 0
+      circleProgressValue: 0,
+      stepsProgressValue: 0,
+      calProgressValue: 0,
+      kmProgressValue: 0
     }
     this.isAnimationStart = false
   }
@@ -21,13 +24,18 @@ export default class DayProgress extends Component {
     Animated.timing(
       this.animatedValue,
       {
-        toValue: Number(((this.props.nbSteps/this.props.goal)*100).toFixed(0)),
-        duration: 1000,
+        toValue: 1,
+        duration: 2000,
         useNativeDriver: true
       }
     ).start()
     this.animatedValue.addListener((res) => {
-      this.setState({circleProgressValue: res.value})
+      this.setState({
+        circleProgressValue: res.value*Number(((this.props.nbSteps/this.props.goal)*100).toFixed(0)),
+        stepsProgressValue: (res.value*this.props.nbSteps).toFixed(0),
+        calProgressValue: (res.value*this.props.nbCal).toFixed(0),
+        kmProgressValue: (res.value*this.props.km).toFixed(0)
+      })
     })
   }
 
@@ -56,15 +64,15 @@ export default class DayProgress extends Component {
         </Animated.View>
         <Container style={{flexDirection: 'row', marginTop: 20, justifyContent: 'center'}}>
           <Container style={{alignItems: 'flex-end'}}>
-            <Text style={{ fontSize: 22 }}>{this.props.nbSteps}</Text>
+            <Text style={{ fontSize: 22 }}>{this.state.stepsProgressValue}</Text>
             <Text style={{ fontSize: 15, color: 'grey' }}>steps</Text>
           </Container>
           <Container style={{alignItems: 'center'}}>
-            <Text style={{ fontSize: 22 }}>{this.props.nbCal}</Text>
+            <Text style={{ fontSize: 22 }}>{this.state.calProgressValue}</Text>
             <Text style={{ fontSize: 15, color: 'grey' }}>cal</Text>
           </Container>
           <Container style={{alignItems: 'flex-start'}}>
-            <Text style={{ fontSize: 22 }}>{this.props.km}</Text>
+            <Text style={{ fontSize: 22 }}>{this.state.kmProgressValue}</Text>
             <Text style={{ fontSize: 15, color: 'grey' }}>km</Text>
           </Container>
         </Container>
