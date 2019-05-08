@@ -69,6 +69,7 @@ const TabNavigator = createMaterialTopTabNavigator(
     }
   },
   {
+    lazy: true,
     bounces: false,
     initialRouteName: "VoiceBot",
     tabBarPosition: 'bottom',

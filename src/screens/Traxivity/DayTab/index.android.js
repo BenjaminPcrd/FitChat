@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getAuth, getDayStepCount, getDailyCalorieCount, getDailyDistanceCount } from '../../../api/googleFitApi'
+import { getAuth, getPeriodStepCount, getDailyCalorieCount, getDailyDistanceCount } from '../../../api/googleFitApi'
 import { connect } from 'react-redux';
 import GoogleFit from 'react-native-google-fit'
 import DayProgress from './DayProgress'
@@ -8,25 +8,23 @@ class DayTab extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      nbSteps: 0,
-      nbCal: 0,
-      km: 0
+      nbSteps: null,
+      nbCal: null,
+      km: null
     }
     getAuth()
   }
 
   componentDidMount() {
     GoogleFit.onAuthorize((res) => {
-      getDayStepCount((error, result) => {
-        this.setState({nbSteps: result})
-        /*let percentProgress = 0;
-        setInterval(() => {
-          percentProgress += 1
-          if(percentProgress > ((this.state.nbSteps/this.props.goal) * 100).toFixed(0)) {
-            percentProgress = ((this.state.nbSteps/this.props.goal) * 100).toFixed(0)
-          }
-          this.setState({percentProgress });
-        }, 10);*/
+      var start = new Date()
+      var end = new Date()
+      const UTC_OFFSET = start.getTimezoneOffset()/60
+      start.setHours(0 - UTC_OFFSET, 0, 0, 0)
+      end.setHours(23 - UTC_OFFSET, 59, 59, 999)
+
+      getPeriodStepCount(start, end, (error, result) => {
+        this.setState({nbSteps: result[0].value})
       })
 
       getDailyCalorieCount((error, result) => {

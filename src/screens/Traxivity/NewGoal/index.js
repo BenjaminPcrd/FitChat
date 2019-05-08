@@ -41,7 +41,7 @@ class NewGoal extends Component {
             console.log('I agree Pressed')
             const action = { type: "SET_NEW_GOAL", value: Number(this.state.nbStep) }
             this.props.dispatch(action)
-            this.props.navigation.navigate('Podometer')
+            this.props.navigation.navigate('Traxivity')
           }
         },
       ],
@@ -68,7 +68,7 @@ class NewGoal extends Component {
                 this.setState({nbStep: itemValue})
               }>
               {stepsTab.map((i) => (
-                  <Picker.Item key={i} label={i} value={i} />
+                  <Picker.Item key={i} label={i} value={i}/>
               ))}
             </Picker>
           </Container>

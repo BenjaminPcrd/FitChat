@@ -15,7 +15,7 @@ export default class HeaderBar extends Component {
     return (
       <Header>
         <Left>
-          <Button onPress={this.props.onClick}>
+          <Button transparent onPress={this.props.onClick}>
             <Icon name={this.props.icon == 'back' ? 'md-arrow-round-back' : 'md-menu'} size={35} color={'white'} />
           </Button>
         </Left>

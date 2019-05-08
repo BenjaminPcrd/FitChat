@@ -34,25 +34,6 @@ export function getAuth() {
    })
 }
 
-export function getDayStepCount(callback) {
-  var start = new Date()
-  var end = new Date()
-  const UTC_OFFSET = start.getTimezoneOffset()/60
-  start.setHours(0 - UTC_OFFSET, 0, 0, 0)
-  end.setHours(23 - UTC_OFFSET, 59, 59, 999)
-  const opt = {
-    startDate: start,
-    endDate: end
-  };
-  GoogleFit.getDailyStepCountSamples(opt, (err, res) => {
-    if(err) {
-      callback(err, 0)
-    } else (
-      callback(false, res.filter(obj => obj.source === "com.google.android.gms:estimated_steps")[0].steps[0].value)
-    )
-  })
-}
-
 export function getPeriodStepCount(start, end, callback) {
   const opt = {
     startDate: start,
@@ -62,7 +43,7 @@ export function getPeriodStepCount(start, end, callback) {
     if(err) {
       callback(err, 0)
     } else (
-      callback(false, res[2].steps)
+      callback(false, res.filter(obj => obj.source === "com.google.android.gms:estimated_steps")[0].steps)
     )
   })
 }
