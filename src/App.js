@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import AppContainer from './navigation/AppContainer'
 import AppIntroSlider from 'react-native-app-intro-slider';
+import { Provider } from 'react-redux'
+import Store from './store/configureStore'
 
 const slides = [
   {
@@ -31,7 +33,9 @@ export default class App extends Component {
 
   render() {
     if (this.state.showRealApp) {
-      return <AppContainer />;
+      return (
+        <Provider store={Store}><AppContainer /></Provider>
+      );
     } else {
       return <AppIntroSlider slides={slides} onDone={() => this.setState({ showRealApp: true })}/>;
     }

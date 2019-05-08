@@ -7,17 +7,9 @@ import {
 import SideBar from './SideBar'
 
 export default class Traxivity extends Component {
-  static navigationOptions = {
-      drawerLabel: 'Traxivity'
-  }
-
-  openDrawer = () => {
-    this.props.navigation.openDrawer()
-  };
-
   render() {
     return (
-      <HeaderBar title='Traxivity' icon='menu' onClick={ () => this.openDrawer() } />
+      <HeaderBar title='Traxivity' icon='menu' onClick={ () => this.props.navigation.openDrawer() } />
     );
   }
 }
