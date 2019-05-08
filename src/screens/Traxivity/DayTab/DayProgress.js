@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { Dimensions, Animated, Easing, View } from 'react-native'
+import { Dimensions, Animated } from 'react-native'
 import ProgressCircle from 'react-native-progress-circle'
 import {
   Container,
-  Text
+  Text,
+  Spinner
 } from "native-base";
 
 export default class DayProgress extends Component {
@@ -17,6 +18,15 @@ export default class DayProgress extends Component {
       kmProgressValue: 0
     }
     this.isAnimationStart = false
+    this.isAnimationEnd = false
+  }
+
+  componentDidUpdate() {
+    if(this.isAnimationEnd) {
+      console.log("update")
+      this.isAnimationEnd = false
+      this.animate()
+    }
   }
 
   animate() {
@@ -25,13 +35,13 @@ export default class DayProgress extends Component {
       this.animatedValue,
       {
         toValue: 1,
-        duration: 2000,
+        duration: 1500,
         useNativeDriver: true
       }
-    ).start()
+    ).start(() => this.isAnimationEnd = true)
     this.animatedValue.addListener((res) => {
       this.setState({
-        circleProgressValue: res.value*Number(((this.props.nbSteps/this.props.goal)*100).toFixed(0)),
+        circleProgressValue: res.value*(this.props.nbSteps/this.props.goal)*100,
         stepsProgressValue: (res.value*this.props.nbSteps).toFixed(0),
         calProgressValue: (res.value*this.props.nbCal).toFixed(0),
         kmProgressValue: (res.value*this.props.km).toFixed(0)
@@ -46,22 +56,25 @@ export default class DayProgress extends Component {
       this.isAnimationStart = true
       this.animate()
     }
+
+    if(!this.props.nbSteps) {
+      return <Container style={{justifyContent: 'center'}}><Spinner color='blue'/></Container>
+    }
+
     return (
       <Container style={{alignItems: 'center', marginTop: 20}}>
-        <Animated.View>
-          <ProgressCircle
-            percent={this.state.circleProgressValue}
-            radius={screenWidth/3}
-            borderWidth={15}
-            color="blue"
-            shadowColor='#c8c8c8'
-            bgColor="white"
-          >
-            <Text style={{ fontSize: 20 }}>{((this.props.nbSteps/this.props.goal)*100).toFixed(0) + '% of goal'}</Text>
-            <Text style={{ fontSize: 14, marginTop: 20, color: 'grey' }}>Your daily goal:</Text>
-            <Text style={{ fontSize: 14 }}>{this.props.goal + ' steps'}</Text>
-          </ProgressCircle>
-        </Animated.View>
+        <ProgressCircle
+          percent={this.state.circleProgressValue}
+          radius={screenWidth/3}
+          borderWidth={15}
+          color="blue"
+          shadowColor='#c8c8c8'
+          bgColor="white"
+        >
+          <Text style={{ fontSize: 20 }}>{(this.state.circleProgressValue).toFixed(0) + '% of goal'}</Text>
+          <Text style={{ fontSize: 14, marginTop: 20, color: 'grey' }}>Your daily goal:</Text>
+          <Text style={{ fontSize: 14 }}>{this.props.goal + ' steps'}</Text>
+        </ProgressCircle>
         <Container style={{flexDirection: 'row', marginTop: 20, justifyContent: 'center'}}>
           <Container style={{alignItems: 'flex-end'}}>
             <Text style={{ fontSize: 22 }}>{this.state.stepsProgressValue}</Text>
