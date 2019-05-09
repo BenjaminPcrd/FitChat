@@ -3,6 +3,8 @@ package com.fitchat;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.wenkesj.voice.VoicePackage;
+import de.innfactory.apiai.RNApiAiPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.reactnative.googlefit.GoogleFitPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
@@ -26,6 +28,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new VoicePackage(),
+            new RNApiAiPackage(),
             new VectorIconsPackage(),
             new GoogleFitPackage(BuildConfig.APPLICATION_ID),
             new RNGestureHandlerPackage()

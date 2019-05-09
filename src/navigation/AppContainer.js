@@ -71,7 +71,7 @@ const TabNavigator = createMaterialTopTabNavigator(
   {
     lazy: true,
     bounces: false,
-    initialRouteName: "Traxivity",
+    initialRouteName: "VoiceBot",
     tabBarPosition: 'bottom',
     tabBarOptions: {
       activeTintColor: '#0000FF', //blue
