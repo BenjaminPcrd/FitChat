@@ -25,7 +25,7 @@ class DayTab extends Component {
     })
     setTimeout(() => {
       this.getInfos()
-    }, 10);
+    }, 5);
   }
 
   componentDidMount() {
@@ -39,6 +39,7 @@ class DayTab extends Component {
     var end = new Date(this.props.selectedDay.getFullYear(), this.props.selectedDay.getMonth(), this.props.selectedDay.getDate(), 0, 0, 0, 0)
     start.setHours(0, 0, 0, 0)
     end.setHours(23, 59, 59, 999)
+
     getPeriodStepCount(start, end, null, (error, result, i) => {
       this.setState({ nbSteps: result[0] ? result[0].value : 0 })
     })
@@ -50,23 +51,18 @@ class DayTab extends Component {
     getDailyDistanceCount(start, end, (error, result) => {
       this.setState({ km: result ? result[0].distance/1000 : 0 });
     })
-    this.getStepsByHours()
-  }
 
-  async getStepsByHours() {
     var tab = []
-    var start = new Date(this.props.selectedDay.getFullYear(), this.props.selectedDay.getMonth(), this.props.selectedDay.getDate(), 0, 0, 0, 0)
-    var end = new Date(this.props.selectedDay.getFullYear(), this.props.selectedDay.getMonth(), this.props.selectedDay.getDate(), 0, 0, 0, 0)
     for(i = 0; i < 24; i++) {
       start.setHours(i, 0, 0, 0)
       end.setHours(i, 59, 59, 999)
       getPeriodStepCount(start, end, i, (error, result, i) => {
         tab[i] = result.length > 0 ? result[0].value : 0
-        if(typeof(tab[23]) != "undefined") {
-          this.setState({tabStep: tab})
-        }
       })
     }
+    Promise.all(tab).then(() => {
+      this.setState({tabStep: tab})
+    })
   }
 
   render() {

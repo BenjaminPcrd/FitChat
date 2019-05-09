@@ -27,9 +27,8 @@ export default class Traxivity extends Component {
 
       if (action === DatePickerAndroid.dateSetAction) {
         this.setState({selectedDay: new Date(year, month, day, 0, 0, 0, 0)})
-      } else if (action == DatePickerAndroid.dismissedAction) {
-        console.log("non")
       }
+
     } catch ({code, message}) {
       console.warn('Cannot open date picker', message);
     }

@@ -35,7 +35,7 @@ export default class DayProgress extends Component {
       this.animatedValue,
       {
         toValue: 1,
-        duration: 500,
+        duration: 1000,
         useNativeDriver: true
       }
     ).start(() => this.isAnimationEnd = true)
@@ -91,7 +91,7 @@ export default class DayProgress extends Component {
         </Container>
 
         <Container style={{flex: 3}}>
-         {this.props.tabStep ? console.log() : <Container style={{justifyContent: 'center'}}><Spinner color='blue'/></Container> }
+         {this.props.tabStep == null ? <Container style={{justifyContent: 'center'}}><Spinner color='blue'/></Container> : null }
           <FlatList
             data={this.props.tabStep}
             keyExtractor={(item, index) => index.toString()}

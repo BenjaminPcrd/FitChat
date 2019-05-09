@@ -17,7 +17,7 @@ export default class WeekProgress extends Component {
     if(this.props.tabStep == null) {
       return <Container style={{justifyContent: 'center'}}><Spinner color='blue'/></Container>
     }
-    console.log(this.props.tabStep)
+    
     return (
       <Container>
         <Container style={{flex: 1, alignItems: 'center', justifyContent: 'space-evenly'}}>

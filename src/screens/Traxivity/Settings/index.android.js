@@ -56,8 +56,6 @@ class Settings extends Component {
             }
             break
         }
-      } else if (action === TimePickerAndroid.dismissedAction) {
-        console.log("dismissedAction" + " " + hour + " " + minute)
       }
     } catch ({code, message}) {
       console.warn('Cannot open time picker', message);
