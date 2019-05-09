@@ -16,7 +16,7 @@ export default class HeaderBar extends Component {
     if(this.props.onRightButton) {
       return (
         <Button transparent onPress={this.props.onRightButton}>
-          <Title style={{marginRight: 10, fontSize: 15}}>{this.props.rightLabel}</Title>
+          <Title style={{marginRight: 10, fontSize: 13}}>{this.props.rightLabel}</Title>
           <Icon name={'md-calendar'} size={35} color={'white'} />
         </Button>
       );

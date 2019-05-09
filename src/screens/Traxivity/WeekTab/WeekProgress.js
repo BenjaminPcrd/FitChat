@@ -17,17 +17,18 @@ export default class WeekProgress extends Component {
     if(this.props.tabStep == null) {
       return <Container style={{justifyContent: 'center'}}><Spinner color='blue'/></Container>
     }
+    console.log(this.props.tabStep)
     return (
       <Container>
         <Container style={{flex: 1, alignItems: 'center', justifyContent: 'space-evenly'}}>
           <Container style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
             <Text style={{ fontSize: 18, color: 'grey' }}>Steps sum:</Text>
-            <Text style={{ fontSize: 20, fontWeight: 'bold' }}> {this.props.tabStep ? arrSum((this.props.tabStep).map(item => item.value)) : "0"} </Text>
+            <Text style={{ fontSize: 20, fontWeight: 'bold' }}> {this.props.tabStep.length > 0 ? arrSum((this.props.tabStep).map(item => item.value)) : "0"} </Text>
           </Container>
 
           <Container style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
             <Text style={{ fontSize: 18, color: 'grey' }}>Steps average:</Text>
-            <Text style={{ fontSize: 20, fontWeight: 'bold' }}> {this.props.tabStep ? arrAvg((this.props.tabStep).map(item => item.value)) : "0"} </Text>
+            <Text style={{ fontSize: 20, fontWeight: 'bold' }}> {this.props.tabStep.length > 0 ? arrAvg((this.props.tabStep).map(item => item.value)) : "0"} </Text>
           </Container>
         </Container>
 
