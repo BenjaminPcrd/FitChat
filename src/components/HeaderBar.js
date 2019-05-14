@@ -23,13 +23,21 @@ export default class HeaderBar extends Component {
     }
   }
 
+  _showLeftButton() {
+    if(this.props.onLeftButton) {
+      return (
+        <Button transparent onPress={this.props.onLeftButton}>
+          <Icon name={'md-menu'} size={35} color={'white'} />
+        </Button>
+      );
+    }
+  }
+
   render() {
     return (
       <Header>
         <Left>
-          <Button transparent onPress={this.props.onLeftButton}>
-            <Icon name={'md-menu'} size={35} color={'white'} />
-          </Button>
+          {this._showLeftButton()}
         </Left>
         <Body>
           <Title>{this.props.title}</Title>
