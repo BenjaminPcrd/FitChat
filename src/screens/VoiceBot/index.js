@@ -39,9 +39,13 @@ export default class VoiceBot extends Component {
       Dialogflow_V2.LANG_ENGLISH,
       auth.project_id
     );
+    Dialogflow_V2.onListeningStarted(() => console.log("listening started"));
+    Dialogflow_V2.onListeningCanceled(() => console.log("listening canceled"));
+    Dialogflow_V2.onListeningFinished(() => console.log("listening finished"));
+    Dialogflow_V2.onAudioLevel(level => console.log(level));
   }
 
-  _sendBotResponse(text) {
+  _sendBotMessage(text) {
     let msg = {
       _id: this.state.messages.length + 1,
       text,
@@ -54,7 +58,21 @@ export default class VoiceBot extends Component {
     }));
   }
 
+  _sendUserMessage(text) {
+    let msg = {
+      _id: this.state.messages.length + 1,
+      text,
+      createdAt: new Date(),
+      user: {_id: 1}
+    };
+
+    this.setState(previousState => ({
+      messages: GiftedChat.append(previousState.messages, [msg])
+    }));
+  }
+
   _onSend(messages = []) {
+    console.log(messages)
     this.setState(previousState => ({
       messages: GiftedChat.append(previousState.messages, messages)
     }));
@@ -62,24 +80,31 @@ export default class VoiceBot extends Component {
     let message = messages[0].text;
     Dialogflow_V2.requestQuery(
       message,
-      result => this._sendBotResponse(result.queryResult.fulfillmentMessages[0].text.text[0]),
+      result => this._sendBotMessage(result.queryResult.fulfillmentMessages[0].text.text[0]),
       error => console.log(error)
     );
   }
 
-
-
-
   _renderActions(props) {
     return (
       <Button
-        onPress={() => alert("oui")}
+        onPress={() => {
+          Dialogflow.startListening(
+            result => {
+              console.log(result)
+              props.context._sendUserMessage(result.result.resolvedQuery)
+              props.context._sendBotMessage(result.result.fulfillment.speech)
+              Dialogflow.subscription.remove(); 
+            },
+            error => console.log(error)
+          )
+        }}
         transparent>
         <Icon name="microphone" size={30} color={"black"} style={{marginLeft: 10}}/>
       </Button>
     );
   }
-
+//props.sendBotResponse(result.result.fulfillment.speech)
   render() {
     return (
       <Container>
@@ -93,6 +118,7 @@ export default class VoiceBot extends Component {
             _id: 1
           }}
           renderActions={this._renderActions}
+          context={this}
         />
       </Container>
     );
