@@ -38,13 +38,7 @@ export default class VoiceBot extends Component {
     };
   }
 
-
   componentDidMount() {
-    /*Dialogflow.setConfiguration( //V1 configuration (for "Listening")
-      "753f8f35601f48a6a558e80cc4b2edde",
-      Dialogflow.LANG_ENGLISH,
-    );*/
-
     Dialogflow_V2.setConfiguration( //V2 configuration (for text query)
       auth.client_email,
       auth.private_key,
@@ -109,6 +103,8 @@ export default class VoiceBot extends Component {
   }
 
   _startListening() { //start the "Listening" action
+    console.log(this.props)
+
     Voice.onSpeechStart = () => this.setState({micColor: 'red', isListening: true})
     Voice.onSpeechEnd = () => this.setState({micColor: 'black', isListening: false})
     Voice.onSpeechError = (err) => {
@@ -135,7 +131,6 @@ export default class VoiceBot extends Component {
           break
       }
     }
-
 
     Voice.start('en-US')
 
@@ -170,16 +165,12 @@ export default class VoiceBot extends Component {
   render() {
     return (
       <Container>
-        <HeaderBar
-          title='Voice Bot'
-        />
+        <HeaderBar title='Voice Bot'/>
         <Root>
           <GiftedChat
             messages={this.state.messages}
             onSend={messages => this._onSend(messages)}
-            user={{
-              _id: 1
-            }}
+            user={{ _id: 1 }}
             renderActions={this._renderActions}
             context={this}
           />
