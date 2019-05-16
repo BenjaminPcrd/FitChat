@@ -8,9 +8,10 @@ import HeaderBar from '../../components/HeaderBar';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { GiftedChat } from 'react-native-gifted-chat';
-import Dialogflow, { Dialogflow_V2 } from 'react-native-dialogflow';
+import { Dialogflow_V2 } from 'react-native-dialogflow';
 import auth from './auth.json';
 
+import Voice from 'react-native-voice';
 import Tts from 'react-native-tts';
 
 const COACH = {
@@ -30,33 +31,24 @@ export default class VoiceBot extends Component {
         createdAt: new Date(),
         user: COACH
       }],
-      isListenerActive: false
+      isListening: false,
+      micColor: 'black'
     };
   }
 
 
   componentDidMount() {
-    Dialogflow.setConfiguration( //V1 configuration (for "Listening")
+    /*Dialogflow.setConfiguration( //V1 configuration (for "Listening")
       "753f8f35601f48a6a558e80cc4b2edde",
       Dialogflow.LANG_ENGLISH,
-    );
+    );*/
 
-    /*Dialogflow_V2.setConfiguration( //V2 configuration (for text query)
+    Dialogflow_V2.setConfiguration( //V2 configuration (for text query)
       auth.client_email,
       auth.private_key,
       Dialogflow_V2.LANG_ENGLISH,
       auth.project_id
-    );*/
-
-    /*Dialogflow_V2.onListeningStarted(() => console.log("listening started")); //listeners (for android)
-    Dialogflow_V2.onListeningCanceled(() => console.log("listening canceled"));
-    Dialogflow_V2.onListeningFinished(() => console.log("listening finished"));
-    Dialogflow_V2.onAudioLevel(level => console.log(level));*/
-
-    /*Dialogflow.onListeningStarted(() => console.log("listening started")); //listeners (for android)
-    Dialogflow.onListeningCanceled(() => console.log("listening canceled"));
-    Dialogflow.onListeningFinished(() => console.log("listening finished"));
-    Dialogflow.onAudioLevel(level => console.log(level));*/
+    );
 
     Tts.addEventListener('tts-finish', (event) => { //start a new Listening when speech end
       this._startListening()
@@ -90,9 +82,11 @@ export default class VoiceBot extends Component {
   }
 
   _speak(text) {
-    Tts.getInitStatus().then(() => {
-      Tts.speak(text);
-    });
+    if(!this.state.isListening) {
+      Tts.getInitStatus().then(() => {
+        Tts.speak(text);
+      });
+    }
   }
 
   _onSend(messages = []) { //when user type and send a message
@@ -102,47 +96,47 @@ export default class VoiceBot extends Component {
     }));
 
     let message = messages[0].text;
-    Dialogflow.requestQuery(
+    Dialogflow_V2.requestQuery(
       message,
       result => {
-        this._sendBotMessage(result.result.fulfillment.speech)
-        this._speak(result.result.fulfillment.speech)
-        /*this._sendBotMessage(result.queryResult.fulfillmentMessages[0].text.text[0])
-        this._speak(result.queryResult.fulfillmentMessages[0].text.text[0])*/
-        //Dialogflow.subscription.remove();
+        this._sendBotMessage(result.queryResult.fulfillmentText)
+        this._speak(result.queryResult.fulfillmentText)
       },
       error => console.log(error)
     );
   }
 
   _startListening() { //start the "Listening" action
-    if(this.state.isListenerActive) {
-      Dialogflow.finishListening()
-      Dialogflow.subscription.remove();
+    Voice.onSpeechStart = () => this.setState({micColor: 'red', isListening: true})
+    Voice.onSpeechEnd = () => this.setState({micColor: 'black', isListening: false})
+    Voice.onSpeechError = (err) => this.setState({micColor: 'black', isListening: false})
+
+    Voice.start('en-US');
+
+    Voice.onSpeechResults = (res) => {
+      let speech = res.value[0]
+      this._sendUserMessage(speech)
+      Dialogflow_V2.requestQuery(
+        speech,
+        result => {
+          this._sendBotMessage(result.queryResult.fulfillmentText)
+          this._speak(result.queryResult.fulfillmentText)
+        },
+        error => console.log(error)
+      );
     }
-    this.setState({isListenerActive: true})
-    Dialogflow.startListening(
-      result => {
-        this._sendUserMessage(result.result.resolvedQuery)
-        this._sendBotMessage(result.result.fulfillment.speech)
-        this._speak(result.result.fulfillment.speech)
-        Dialogflow.subscription.remove();
-        this.setState({isListenerActive: false})
-      },
-      error => {
-        console.log(error)
-      }
-    )
   }
 
   _renderActions(props) { //mic button render
     return (
       <Button
         onPress={() => {
-          props.context._startListening()
+          if(!props.context.state.isListening) {
+            props.context._startListening()
+          }
         }}
         transparent>
-        <Icon name="microphone" size={30} color={"black"} style={{marginLeft: 10}}/>
+        <Icon name="microphone" size={30} color={props.context.state.micColor} style={{marginLeft: 10}}/>
       </Button>
     );
   }
