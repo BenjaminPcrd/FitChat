@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import {
   Container,
   Text,
-  Button
+  Button,
+  Toast,
+  Root
 } from 'native-base';
 import HeaderBar from '../../components/HeaderBar';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -109,9 +111,33 @@ export default class VoiceBot extends Component {
   _startListening() { //start the "Listening" action
     Voice.onSpeechStart = () => this.setState({micColor: 'red', isListening: true})
     Voice.onSpeechEnd = () => this.setState({micColor: 'black', isListening: false})
-    Voice.onSpeechError = (err) => this.setState({micColor: 'black', isListening: false})
+    Voice.onSpeechError = (err) => {
+      this.setState({micColor: 'black', isListening: false})
 
-    Voice.start('en-US');
+      switch(err.error.message.split('/')[0]){ // 6 > No speech input, 7 > No match
+        case '6':
+          Toast.show({
+            text: "No speech input, try to speak a little louder and close to the microphone",
+            duration: 5000,
+            position: 'top',
+            buttonText: "Ok",
+            buttonStyle: { backgroundColor: "#5cb85c" }
+          })
+          break
+        case '7':
+          Toast.show({
+            text: "No match, try to speak a little more clearly and slowly",
+            duration: 5000,
+            position: 'top',
+            buttonText: "Ok",
+            buttonStyle: { backgroundColor: "#5cb85c" }
+          })
+          break
+      }
+    }
+
+
+    Voice.start('en-US')
 
     Voice.onSpeechResults = (res) => {
       let speech = res.value[0]
@@ -147,15 +173,17 @@ export default class VoiceBot extends Component {
         <HeaderBar
           title='Voice Bot'
         />
-        <GiftedChat
-          messages={this.state.messages}
-          onSend={messages => this._onSend(messages)}
-          user={{
-            _id: 1
-          }}
-          renderActions={this._renderActions}
-          context={this}
-        />
+        <Root>
+          <GiftedChat
+            messages={this.state.messages}
+            onSend={messages => this._onSend(messages)}
+            user={{
+              _id: 1
+            }}
+            renderActions={this._renderActions}
+            context={this}
+          />
+        </Root>
       </Container>
     );
   }
