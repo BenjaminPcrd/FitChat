@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { getAuth, getPeriodStepCount, getDailyCalorieCount, getDailyDistanceCount } from '../../../api/googleFitApi'
 import { connect } from 'react-redux';
 import GoogleFit from 'react-native-google-fit'
 import WeekProgress from './WeekProgress'
@@ -15,17 +14,14 @@ class WeekTab extends Component {
   componentWillReceiveProps() {
     this.setState({
       tabStep: null
-    })
-    setTimeout(() => {
-      this.getInfos()
-    }, 10);
+    }, () => this.getInfos())
   }
 
   componentDidMount() {
     this.getInfos()
   }
 
-  getInfos() {
+  async getInfos() {
     var start = new Date(this.props.selectedDay.getFullYear(), this.props.selectedDay.getMonth(), this.props.selectedDay.getDate(), 0, 0, 0, 0)
     var end = new Date(this.props.selectedDay.getFullYear(), this.props.selectedDay.getMonth(), this.props.selectedDay.getDate(), 0, 0, 0, 0)
     start.setDate(start.getDate())
@@ -36,9 +32,13 @@ class WeekTab extends Component {
     start.setHours(0, 0, 0, 0)
     end.setHours(23, 59, 59, 999  )
 
-    getPeriodStepCount(start, end, null, (error, result, i) => {
-      this.setState({tabStep: result})
+    var opt = { startDate: start, endDate: end }
+    var tabStep = await new Promise(resolve => {
+      GoogleFit.getDailyStepCountSamples(opt, (err, res) => {
+        resolve(res.filter(obj => obj.source === "com.google.android.gms:estimated_steps")[0].steps)
+      })
     })
+    this.setState({tabStep: tabStep})
   }
 
   render() {

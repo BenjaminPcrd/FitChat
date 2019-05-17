@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { getAuth } from '../../../api/googleFitApi'
 import { connect } from 'react-redux';
-import GoogleFit from 'react-native-google-fit'
+import GoogleFit, { Scopes } from 'react-native-google-fit'
 import DayProgress from './DayProgress'
 
 class DayTab extends Component {
@@ -13,7 +12,6 @@ class DayTab extends Component {
       nbCal: null,
       km: null
     }
-    getAuth()
   }
 
   componentWillReceiveProps() {
@@ -22,16 +20,12 @@ class DayTab extends Component {
       tabStep: null,
       nbCal: null,
       km: null
-    })
-    setTimeout(() => {
-      this.getInfos()
-    }, 5);
+    }, () => this.getInfos())
   }
 
   componentDidMount() {
-    GoogleFit.onAuthorize((res) => {
-      this.getInfos()
-    })
+    GoogleFit.authorize({scopes: [Scopes.FITNESS_ACTIVITY_READ, Scopes.FITNESS_LOCATION_READ]})
+    GoogleFit.onAuthorize(() => this.getInfos())
   }
 
   async getInfos() {

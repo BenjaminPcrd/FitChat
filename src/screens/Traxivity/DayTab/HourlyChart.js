@@ -54,7 +54,7 @@ export default class HourlyChart extends Component {
         style={styles.chart}
         data={this.state.data}
         xAxis={this.state.xAxis}
-        animation={{durationX: 2000}}
+        animation={{durationX: 1000}}
         gridBackgroundColor={processColor('#ffffff')}
         visibleRange={{x: { min: 24, max: 24 }}}
         drawBarShadow={false}
