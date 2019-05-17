@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { getAuth, getPeriodStepCount, getDailyCalorieCount, getDailyDistanceCount } from '../../../api/googleFitApi'
+import { getAuth } from '../../../api/googleFitApi'
 import { connect } from 'react-redux';
 import GoogleFit from 'react-native-google-fit'
 import DayProgress from './DayProgress'
@@ -34,34 +34,50 @@ class DayTab extends Component {
     })
   }
 
-  getInfos() {
+  async getInfos() {
     var start = new Date(this.props.selectedDay.getFullYear(), this.props.selectedDay.getMonth(), this.props.selectedDay.getDate(), 0, 0, 0, 0)
     var end = new Date(this.props.selectedDay.getFullYear(), this.props.selectedDay.getMonth(), this.props.selectedDay.getDate(), 0, 0, 0, 0)
     start.setHours(0, 0, 0, 0)
     end.setHours(23, 59, 59, 999)
+    var opt = { startDate: start, endDate: end }
 
-    getPeriodStepCount(start, end, null, (error, result, i) => {
-      this.setState({ nbSteps: result[0] ? result[0].value : 0 })
+    var nbSteps = await new Promise(resolve => { // daily steps
+      GoogleFit.getDailyStepCountSamples(opt, (err, res) => {
+        resolve(res.filter(obj => obj.source === "com.google.android.gms:estimated_steps")[0].steps)
+      })
     })
 
-    getDailyCalorieCount(start, end, (error, result) => {
-      this.setState({ nbCal: result ? result : 0 });
+    var km = await new Promise(resolve => { // daily km
+      GoogleFit.getDailyDistanceSamples(opt, (err, res) => {
+        resolve(res)
+      })
     })
 
-    getDailyDistanceCount(start, end, (error, result) => {
-      this.setState({ km: result ? result[0].distance/1000 : 0 });
+    opt = { startDate: start, endDate: end, basalCalculation: false }
+    var nbCal = await new Promise(resolve => { // daily cal
+      GoogleFit.getDailyCalorieSamples(opt, (err, res) => {
+        resolve(res[0].calorie)
+      })
     })
 
     var tab = []
     for(i = 0; i < 24; i++) {
       start.setHours(i, 0, 0, 0)
       end.setHours(i, 59, 59, 999)
-      getPeriodStepCount(start, end, i, (error, result, i) => {
-        tab[i] = result.length > 0 ? result[0].value : 0
+      opt = { startDate: start, endDate: end }
+      var nbS = await new Promise(resolve => { // daily steps
+        GoogleFit.getDailyStepCountSamples(opt, (err, res) => {
+          resolve(res.filter(obj => obj.source === "com.google.android.gms:estimated_steps")[0].steps)
+        })
       })
+      tab[i] = nbS.length > 0 ? nbS[0].value : 0
     }
-    Promise.all(tab).then(() => {
-      this.setState({tabStep: tab})
+
+    this.setState({
+      nbSteps: nbSteps[0] ? nbSteps[0].value : 0,
+      km: km ? km[0].distance/1000 : 0,
+      nbCal: nbCal ? nbCal : 0,
+      tabStep: tab
     })
   }
 

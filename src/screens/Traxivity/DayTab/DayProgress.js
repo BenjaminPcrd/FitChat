@@ -8,6 +8,8 @@ import {
   ListItem
 } from "native-base";
 
+import HourlyChart from './HourlyChart'
+
 export default class DayProgress extends Component {
   constructor(props) {
     super(props)
@@ -61,19 +63,21 @@ export default class DayProgress extends Component {
     }
 
     return (
-      <Container style={{alignItems: 'center', marginTop: 20}}>
-        <ProgressCircle
-          percent={this.state.circleProgressValue}
-          radius={screenWidth/3}
-          borderWidth={15}
-          color="blue"
-          shadowColor='#c8c8c8'
-          bgColor="white"
-        >
-          <Text style={{ fontSize: 20 }}>{(this.state.circleProgressValue).toFixed(0) + '% of goal'}</Text>
-          <Text style={{ fontSize: 14, marginTop: 20, color: 'grey' }}>Your daily goal:</Text>
-          <Text style={{ fontSize: 14 }}>{this.props.goal + ' steps'}</Text>
-        </ProgressCircle>
+      <Container style={{marginTop: 20}}>
+        <Container style={{flex: 4, alignItems: 'center'}}>
+          <ProgressCircle
+            percent={this.state.circleProgressValue}
+            radius={screenWidth/3}
+            borderWidth={15}
+            color="blue"
+            shadowColor='#c8c8c8'
+            bgColor="white"
+          >
+            <Text style={{ fontSize: 20 }}>{(this.state.circleProgressValue).toFixed(0) + '% of goal'}</Text>
+            <Text style={{ fontSize: 14, marginTop: 20, color: 'grey' }}>Your daily goal:</Text>
+            <Text style={{ fontSize: 14 }}>{this.props.goal + ' steps'}</Text>
+          </ProgressCircle>
+        </Container>
 
         <Container style={{flex: 1, flexDirection: 'row', marginTop: 20, justifyContent: 'center'}}>
           <Container style={{alignItems: 'flex-end'}}>
@@ -91,24 +95,28 @@ export default class DayProgress extends Component {
         </Container>
 
         <Container style={{flex: 3}}>
-         {this.props.tabStep == null ? <Container style={{justifyContent: 'center'}}><Spinner color='blue'/></Container> : null }
-          <FlatList
-            data={this.props.tabStep}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({item, index}) => {
-              if(item > 0) {
-                return (
-                  <ListItem>
-                    <Text style={{ fontSize: 14, color: 'grey' }}> {index + ":00" + " - " + (index + 1) + ":00"} </Text>
-                    <Text style={{ fontSize: 18, fontWeight: 'bold' }}> {item} </Text>
-                    <Text style={{ fontSize: 16 }}> {"steps"} </Text>
-                  </ListItem>
-                );
-              }
-            }}
-          />
+          <HourlyChart tabStep={this.props.tabStep}/>
         </Container>
       </Container>
     );
   }
 }
+
+/*
+{this.props.tabStep == null ? <Container style={{justifyContent: 'center'}}><Spinner color='blue'/></Container> : null }
+ <FlatList
+   data={this.props.tabStep}
+   keyExtractor={(item, index) => index.toString()}
+   renderItem={({item, index}) => {
+     if(item > 0) {
+       return (
+         <ListItem>
+           <Text style={{ fontSize: 14, color: 'grey' }}> {index + ":00" + " - " + (index + 1) + ":00"} </Text>
+           <Text style={{ fontSize: 18, fontWeight: 'bold' }}> {item} </Text>
+           <Text style={{ fontSize: 16 }}> {"steps"} </Text>
+         </ListItem>
+       );
+     }
+   }}
+ />
+ */
