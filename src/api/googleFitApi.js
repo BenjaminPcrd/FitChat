@@ -32,7 +32,7 @@ export function getPeriodDistance(start, end) {
   return new Promise((resolve, reject) => {
     GoogleFit.getDailyDistanceSamples(opt, (err, res) => {
       if(err) {
-        resject(error)
+        reject(err)
       } else {
         resolve(res)
       }
@@ -45,7 +45,7 @@ export function getPeriodCalorie(start, end) {
   return new Promise((resolve, reject) => {
     GoogleFit.getDailyCalorieSamples(opt, (err, res) => {
       if(err) {
-        resject(error)
+        reject(err)
       } else {
         resolve(res[0].calorie)
       }
