@@ -18,13 +18,26 @@ export default class HourlyChart extends Component {
           }
         }],
         config: {
-          barWidth: 0.7,
+          barWidth: 0.8,
         }
       },
       xAxis: {
         valueFormatter: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'],
         granularityEnabled: true,
         granularity : 1,
+        drawAxisLine: true,
+        drawGridLines: false,
+        position: "BOTTOM",
+
+      },
+      yAxis: {
+        left: {
+          enabled: true,
+          spaceBottom: 0
+        },
+        right: {
+          enabled: false
+        }
       },
       animation: {
         durationY: 500,
@@ -56,6 +69,7 @@ export default class HourlyChart extends Component {
           style={{flex: 1}}
           data={this.state.data}
           xAxis={this.state.xAxis}
+          yAxis={this.state.yAxis}
           animation={this.state.animation}
           gridBackgroundColor={processColor('#ffffff')}
           visibleRange={{x: { min: 24, max: 24 }}}
