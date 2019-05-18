@@ -33,8 +33,8 @@ export default class VoiceBot extends Component {
         createdAt: new Date(),
         user: COACH
       }],
-      isListening: false,
-      micColor: 'black'
+      isMicOn: false,
+      lastMsgIsText: false
     };
   }
 
@@ -78,7 +78,7 @@ export default class VoiceBot extends Component {
   }
 
   _speak(text) {
-    if(!this.state.isListening) {
+    if(!this.state.isMicOn && !this.state.lastMsgIsText) {
       Tts.getInitStatus().then(() => {
         Tts.speak(text);
       });
@@ -86,9 +86,9 @@ export default class VoiceBot extends Component {
   }
 
   _onSend(messages = []) { //when user type and send a message
-    console.log(messages)
     this.setState(previousState => ({
-      messages: GiftedChat.append(previousState.messages, messages)
+      messages: GiftedChat.append(previousState.messages, messages),
+      lastMsgIsText: true
     }));
 
     let message = messages[0].text;
@@ -103,13 +103,10 @@ export default class VoiceBot extends Component {
   }
 
   _startListening() { //start the "Listening" action
-    console.log(this.props)
-
-    Voice.onSpeechStart = () => this.setState({micColor: 'red', isListening: true})
-    Voice.onSpeechEnd = () => this.setState({micColor: 'black', isListening: false})
+    Voice.onSpeechStart = () => this.setState({isMicOn: true, lastMsgIsText: false})
+    Voice.onSpeechEnd = () => this.setState({isMicOn: false})
     Voice.onSpeechError = (err) => {
-      this.setState({micColor: 'black', isListening: false})
-
+      this.setState({isMicOn: false})
       switch(err.error.message.split('/')[0]){ // 6 > No speech input, 7 > No match
         case '6':
           Toast.show({
@@ -152,12 +149,12 @@ export default class VoiceBot extends Component {
     return (
       <Button
         onPress={() => {
-          if(!props.context.state.isListening) {
+          if(!props.context.state.isMicOn) {
             props.context._startListening()
           }
         }}
         transparent>
-        <Icon name="microphone" size={30} color={props.context.state.micColor} style={{marginLeft: 10}}/>
+        <Icon name="microphone" size={30} color={props.context.state.isMicOn ? 'red' : 'black'} style={{marginLeft: 10}}/>
       </Button>
     );
   }
