@@ -38,7 +38,7 @@ class WeekTab extends Component {
   }
 
   render() {
-    return <WeekProgress tabStep={this.state.tabStep} />
+    return <WeekProgress tabStep={this.state.tabStep} goal={this.props.goal}/>
   }
 }
 

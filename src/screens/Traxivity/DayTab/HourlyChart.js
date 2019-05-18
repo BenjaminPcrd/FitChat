@@ -43,7 +43,7 @@ export default class HourlyChart extends Component {
         }
       }],
       config: {
-        barWidth: 0.7,
+        barWidth: 0.8,
       }
     }
     this.setState({data: data})
@@ -60,6 +60,8 @@ export default class HourlyChart extends Component {
           gridBackgroundColor={processColor('#ffffff')}
           visibleRange={{x: { min: 24, max: 24 }}}
           chartDescription={{text: ''}}
+          touchEnabled={true}
+          marker={{enabled: true}}
         />
       </Container>
     )

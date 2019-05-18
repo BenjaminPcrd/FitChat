@@ -35,11 +35,9 @@ export default class WeekProgress extends Component {
         </Container>
 
         <Container style={{flex: 4 , margin: 10}}>
-          <WeeklyChart tabStep={this.props.tabStep}/>
+          <WeeklyChart tabStep={this.props.tabStep} goal={this.props.goal}/>
         </Container>
       </Container>
     );
   }
 }
-
-/>*/
