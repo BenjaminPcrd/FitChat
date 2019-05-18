@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Dimensions, Animated, FlatList } from 'react-native'
+import { Dimensions, Animated, Easing, FlatList } from 'react-native'
 import ProgressCircle from 'react-native-progress-circle'
 import {
   Container,
@@ -38,7 +38,8 @@ export default class DayProgress extends Component {
       {
         toValue: 1,
         duration: 1000,
-        useNativeDriver: true
+        useNativeDriver: true,
+        easing: Easing.inOut(Easing.cubic)
       }
     ).start(() => this.isAnimationEnd = true)
     this.animatedValue.addListener((res) => {
@@ -94,29 +95,10 @@ export default class DayProgress extends Component {
           </Container>
         </Container>
 
-        <Container style={{flex: 3}}>
+        <Container style={{flex: 3, marginLeft: 5, marginRight: 5}}>
           <HourlyChart tabStep={this.props.tabStep}/>
         </Container>
       </Container>
     );
   }
 }
-
-/*
-{this.props.tabStep == null ? <Container style={{justifyContent: 'center'}}><Spinner color='blue'/></Container> : null }
- <FlatList
-   data={this.props.tabStep}
-   keyExtractor={(item, index) => index.toString()}
-   renderItem={({item, index}) => {
-     if(item > 0) {
-       return (
-         <ListItem>
-           <Text style={{ fontSize: 14, color: 'grey' }}> {index + ":00" + " - " + (index + 1) + ":00"} </Text>
-           <Text style={{ fontSize: 18, fontWeight: 'bold' }}> {item} </Text>
-           <Text style={{ fontSize: 16 }}> {"steps"} </Text>
-         </ListItem>
-       );
-     }
-   }}
- />
- */

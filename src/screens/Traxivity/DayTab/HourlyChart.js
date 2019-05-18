@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-import { Dimensions, processColor, StyleSheet } from 'react-native'
+import { processColor } from 'react-native'
 import {
-  Container,
-  Text
+  Container
 } from "native-base";
-
 import {BarChart} from 'react-native-charts-wrapper';
 
 export default class HourlyChart extends Component {
@@ -27,6 +25,10 @@ export default class HourlyChart extends Component {
         valueFormatter: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20', '21', '22', '23'],
         granularityEnabled: true,
         granularity : 1,
+      },
+      animation: {
+        durationY: 500,
+        easingY: 'EaseInOutCubic'
       }
     }
   }
@@ -50,27 +52,16 @@ export default class HourlyChart extends Component {
   render() {
     return (
       <Container>
-      <BarChart
-        style={styles.chart}
-        data={this.state.data}
-        xAxis={this.state.xAxis}
-        animation={{durationX: 1000}}
-        gridBackgroundColor={processColor('#ffffff')}
-        visibleRange={{x: { min: 24, max: 24 }}}
-        drawBarShadow={false}
-        chartDescription={{}}
-      />
+        <BarChart
+          style={{flex: 1}}
+          data={this.state.data}
+          xAxis={this.state.xAxis}
+          animation={this.state.animation}
+          gridBackgroundColor={processColor('#ffffff')}
+          visibleRange={{x: { min: 24, max: 24 }}}
+          chartDescription={{text: ''}}
+        />
       </Container>
     )
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F5FCFF'
-  },
-  chart: {
-    flex: 1
-  }
-});

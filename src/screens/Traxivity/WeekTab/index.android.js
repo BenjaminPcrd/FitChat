@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
-import GoogleFit from 'react-native-google-fit'
+import { getPeriodStepCount } from '../../../api/googleFitApi'
+import GoogleFit, { Scopes } from 'react-native-google-fit'
 import WeekProgress from './WeekProgress'
 
 class WeekTab extends Component {
@@ -32,12 +33,7 @@ class WeekTab extends Component {
     start.setHours(0, 0, 0, 0)
     end.setHours(23, 59, 59, 999  )
 
-    var opt = { startDate: start, endDate: end }
-    var tabStep = await new Promise(resolve => {
-      GoogleFit.getDailyStepCountSamples(opt, (err, res) => {
-        resolve(res.filter(obj => obj.source === "com.google.android.gms:estimated_steps")[0].steps)
-      })
-    })
+    var tabStep = await getPeriodStepCount(start, end).catch(err => console.warn(err))
     this.setState({tabStep: tabStep})
   }
 

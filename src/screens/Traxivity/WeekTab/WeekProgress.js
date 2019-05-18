@@ -7,6 +7,8 @@ import {
   Spinner
 } from "native-base";
 
+import WeeklyChart from './WeeklyChart'
+
 export default class WeekProgress extends Component {
   render() {
     const arrSum = arr => arr.reduce((a,b) => a + b, 0)
@@ -17,7 +19,7 @@ export default class WeekProgress extends Component {
     if(this.props.tabStep == null) {
       return <Container style={{justifyContent: 'center'}}><Spinner color='blue'/></Container>
     }
-    
+
     return (
       <Container>
         <Container style={{flex: 1, alignItems: 'center', justifyContent: 'space-evenly'}}>
@@ -32,22 +34,12 @@ export default class WeekProgress extends Component {
           </Container>
         </Container>
 
-        <Container style={{flex: 3}}>
-          <FlatList
-            data={this.props.tabStep}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({item, index}) => {
-              return (
-                <ListItem>
-                  <Text style={{ fontSize: 14, color: 'grey' }}> {day[index] + ", " + (item.date).split('-')[2] + " " + months[Number((item.date).split('-')[1]) - 1  ] + ":"} </Text>
-                  <Text style={{ fontSize: 18, fontWeight: 'bold' }}> {item.value} </Text>
-                  <Text style={{ fontSize: 16 }}> {"steps"} </Text>
-                </ListItem>
-              );
-            }}
-          />
+        <Container style={{flex: 4 , margin: 10}}>
+          <WeeklyChart tabStep={this.props.tabStep}/>
         </Container>
       </Container>
     );
   }
 }
+
+/>*/
