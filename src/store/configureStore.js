@@ -4,10 +4,12 @@ import storage from 'redux-persist/lib/storage'
 
 import setStartEndDayTime from './reducers/settingsReducer';
 import setNewGoal from './reducers/goalReducer'
+import setIsFirstLaunch from './reducers/appIntroSliderReducer'
 
 const reducers = combineReducers({
   setStartEndDayTime,
-  setNewGoal
+  setNewGoal,
+  setIsFirstLaunch
 })
 
 const persistConfig = {

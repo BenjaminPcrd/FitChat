@@ -1,9 +1,7 @@
 import React, {Component} from 'react';
 import AppContainer from './navigation/AppContainer'
 import AppIntroSlider from 'react-native-app-intro-slider';
-import { Provider } from 'react-redux'
-import { persistor, store } from './store/configureStore'
-import { PersistGate } from 'redux-persist/integration/react'
+import { connect } from 'react-redux'
 
 const slides = [
   {
@@ -29,20 +27,20 @@ const slides = [
   }
 ];
 
-export default class App extends Component {
-  state = { showRealApp: true }
-
+class App extends Component {
   render() {
-    if (this.state.showRealApp) {
-      return (
-        <Provider store={store}>
-          <PersistGate loading={null} persistor={persistor}>
-            <AppContainer />
-          </PersistGate>
-        </Provider>
-      );
+    if(!this.props.isFirstLaunch) {
+      return <AppContainer />
     } else {
-      return <AppIntroSlider slides={slides} onDone={() => this.setState({ showRealApp: true })}/>;
+      return <AppIntroSlider slides={slides} onDone={() => this.props.dispatch({ type: "SET_IS_FIRST_LAUNCH", value: false })}/>;
     }
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    isFirstLaunch: state.setIsFirstLaunch.isFirstLaunch,
+  }
+}
+
+export default connect(mapStateToProps)(App)
