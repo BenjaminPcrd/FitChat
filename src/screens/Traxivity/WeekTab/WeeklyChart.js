@@ -17,7 +17,7 @@ export default class WeeklyChart extends Component {
         }
       }],
       config: {
-        barWidth: 0.7,
+        barWidth: 0.5
       }
     }
     let days = this.props.tabStep.map(item => item.date.split('-')[2])
@@ -34,7 +34,7 @@ export default class WeeklyChart extends Component {
     const yAxis = {
       left: {
         enabled: true,
-        spaceBottom: 0,
+        spaceBottom: 10,
         limitLines: [{
           limit: this.props.goal,
           label: 'Goal',

@@ -2,7 +2,8 @@ import React, {Component} from 'react';
 import AppContainer from './navigation/AppContainer'
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { Provider } from 'react-redux'
-import Store from './store/configureStore'
+import { persistor, store } from './store/configureStore'
+import { PersistGate } from 'redux-persist/integration/react'
 
 const slides = [
   {
@@ -34,7 +35,11 @@ export default class App extends Component {
   render() {
     if (this.state.showRealApp) {
       return (
-        <Provider store={Store}><AppContainer /></Provider>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <AppContainer />
+          </PersistGate>
+        </Provider>
       );
     } else {
       return <AppIntroSlider slides={slides} onDone={() => this.setState({ showRealApp: true })}/>;
