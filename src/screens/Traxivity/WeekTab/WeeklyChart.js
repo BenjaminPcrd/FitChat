@@ -20,8 +20,11 @@ export default class WeeklyChart extends Component {
         barWidth: 0.7,
       }
     }
+    let days = this.props.tabStep.map(item => item.date.split('-')[2])
+    //['Mon, '+days[0], 'Tue, '+days[1], 'Wed, '+days[2], 'Thu, '+days[3], 'Fri, '+days[4], 'Sat, '+days[5], 'Sun, '+days[6]],
     const xAxis = {
       valueFormatter: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      labelRotationAngle: 0,
       granularityEnabled: true,
       granularity : 1,
       drawAxisLine: true,
@@ -31,6 +34,7 @@ export default class WeeklyChart extends Component {
     const yAxis = {
       left: {
         enabled: true,
+        spaceBottom: 0,
         limitLines: [{
           limit: this.props.goal,
           label: 'Goal',
