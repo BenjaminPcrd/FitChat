@@ -5,15 +5,7 @@ import {
   Text
 } from 'native-base';
 
-import firebase from 'react-native-firebase';
-
 export default class Exercise extends Component {
-
-  async componentDidMount() {
-    firebase.auth().signInAnonymously()
-      .then(res => console.log(res))
-      .catch(err => console.log(err))
-  }
 
   render() {
     return (

@@ -3,6 +3,9 @@ import AppContainer from './navigation/AppContainer'
 import AppIntroSlider from 'react-native-app-intro-slider';
 import { connect } from 'react-redux'
 
+import firebase from 'react-native-firebase';
+import { GoogleSignin } from 'react-native-google-signin';
+
 const slides = [
   {
     key: '1',
@@ -28,11 +31,41 @@ const slides = [
 ];
 
 class App extends Component {
+
+  async componentDidMount() {
+    const isSignedIn = await GoogleSignin.isSignedIn()
+    if(!this.props.isFirstLaunch && !isSignedIn) {
+      this._onDone()
+    } else {
+      const user = await GoogleSignin.getCurrentUser()
+      console.log(user)
+    }
+  }
+
+  async _onDone() {
+    await GoogleSignin.configure({
+      scopes: [
+        "https://www.googleapis.com/auth/userinfo.profile",
+        "https://www.googleapis.com/auth/userinfo.email",
+        "https://www.googleapis.com/auth/fitness.location.read",
+        "https://www.googleapis.com/auth/fitness.activity.read"
+      ],
+      webClientId: '97311447993-a0gm2t557t128fdnqib8bcp8ooe9m7h6.apps.googleusercontent.com'
+    })
+
+    const user = await GoogleSignin.signIn()
+    const credential = firebase.auth.GoogleAuthProvider.credential(user.idToken, 'xoY16mVZdhjfiGCho6E66jAN')
+    const firebaseUserCredential = await firebase.auth().signInWithCredential(credential)
+    console.log(firebaseUserCredential)
+
+    this.props.dispatch({ type: "SET_IS_FIRST_LAUNCH", value: false })
+  }
+
   render() {
     if(!this.props.isFirstLaunch) {
       return <AppContainer />
     } else {
-      return <AppIntroSlider slides={slides} onDone={() => this.props.dispatch({ type: "SET_IS_FIRST_LAUNCH", value: false })}/>;
+      return <AppIntroSlider slides={slides} onDone={() => this._onDone()}/>;
     }
   }
 }
