@@ -74,7 +74,7 @@ const TabNavigator = createMaterialTopTabNavigator(
     initialRouteName: "VoiceBot",
     tabBarPosition: 'bottom',
     tabBarOptions: {
-      activeTintColor: '#0000FF', //blue
+      activeTintColor: 'rgb(70, 70, 200)', //blue
       inactiveTintColor: '#AAAAAA', //grey
       activeBackgroundColor: '#DDDDDD', //grey
       inactiveBackgroundColor: '#FFFFFF', //white
@@ -82,7 +82,8 @@ const TabNavigator = createMaterialTopTabNavigator(
       showLabel: true,
       showIcon: true,
       indicatorStyle: {
-        backgroundColor: '#0000FF'
+        backgroundColor: 'rgb(70, 70, 200)',
+        height: 3
       },
       style: {
         backgroundColor: 'white',

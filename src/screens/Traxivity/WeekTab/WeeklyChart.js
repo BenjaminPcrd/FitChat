@@ -13,7 +13,7 @@ export default class WeeklyChart extends Component {
         values: this.props.tabStep ? this.props.tabStep.map(item => item.value) : [],
         label: 'Number of steps',
         config: {
-          color: processColor('teal')
+          color: processColor('rgb(63, 81, 181)')
         }
       }],
       config: {
@@ -64,7 +64,6 @@ export default class WeeklyChart extends Component {
           yAxis={yAxis}
           animation={animation}
           legend={legend}
-          gridBackgroundColor={processColor('#ffffff')}
           visibleRange={{x: { min: 7, max: 7 }}}
           chartDescription={{text: ''}}
           touchEnabled={true}

@@ -70,7 +70,7 @@ export default class DayProgress extends Component {
             percent={this.state.circleProgressValue}
             radius={screenWidth/3}
             borderWidth={15}
-            color="rgb(60, 60, 200)"
+            color="rgb(63, 81, 181)"
             shadowColor='#c8c8c8'
             bgColor="white"
           >

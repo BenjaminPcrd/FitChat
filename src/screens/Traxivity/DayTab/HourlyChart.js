@@ -14,7 +14,7 @@ export default class HourlyChart extends Component {
           values: [],
           label: 'Number of steps',
           config: {
-            color: processColor('teal')
+            color: processColor('rgb(63, 81, 181)')
           }
         }],
         config: {
@@ -52,7 +52,7 @@ export default class HourlyChart extends Component {
         values: this.props.tabStep ? this.props.tabStep : [],
         label: 'Number of steps',
         config: {
-          color: processColor('teal')
+          color: processColor('rgb(63, 81, 181)')
         }
       }],
       config: {
