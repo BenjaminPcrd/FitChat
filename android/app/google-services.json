@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "97311447993",
+    "firebase_url": "https://test-dcdd7.firebaseio.com",
+    "project_id": "test-dcdd7",
+    "storage_bucket": "test-dcdd7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:97311447993:android:3190e23067bcb955",
+        "android_client_info": {
+          "package_name": "com.fitchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "97311447993-a0gm2t557t128fdnqib8bcp8ooe9m7h6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9P3b9F3_21uq2U8yQ5BqjKm5tc7qDH0E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "97311447993-jj53cjg9c7s4mb5pt7ckb7tqa6op3hbs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

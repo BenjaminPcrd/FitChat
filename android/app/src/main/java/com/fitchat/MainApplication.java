@@ -3,6 +3,8 @@ package com.fitchat;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.auth.RNFirebaseAuthPackage;
 import com.github.wuxudong.rncharts.MPAndroidChartPackage;
 import net.no_mad.tts.TextToSpeechPackage;
 import com.wenkesj.voice.VoicePackage;
@@ -30,6 +32,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFirebaseAuthPackage(),
+            new RNFirebasePackage(),
             new MPAndroidChartPackage(),
             new TextToSpeechPackage(),
             new VoicePackage(),
