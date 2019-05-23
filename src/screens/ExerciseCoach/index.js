@@ -16,7 +16,7 @@ import auth from './auth.json';
 import Voice from 'react-native-voice';
 import Tts from 'react-native-tts';
 
-import firebase from 'react-native-firebase'
+import { GoogleSignin } from 'react-native-google-signin';
 
 const COACH = {
   _id: 2,
@@ -40,8 +40,8 @@ export default class ExerciseCoach extends Component {
     };
   }
 
-  componentDidMount() {
-    Dialogflow_V2.setConfiguration( //V2 configuration (for text query)
+  async componentDidMount() {
+    await Dialogflow_V2.setConfiguration( //V2 configuration (for text query)
       auth.client_email,
       auth.private_key,
       Dialogflow_V2.LANG_ENGLISH,
@@ -54,8 +54,12 @@ export default class ExerciseCoach extends Component {
     });
 
 
-    const ref = firebase.firestore().collection('test')
-    ref.add({id: 1})
+    const user = await GoogleSignin.getCurrentUser()
+    Dialogflow_V2.requestQuery(
+      "set " + user.user.id,
+      result => console.log(result),
+      error => console.log(error)
+    );
   }
 
   _sendBotMessage(text) { //send a bot response

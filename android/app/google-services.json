@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "97311447993-5bfg932joles6ir8a9hpiqor2k1iitm7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fitchat",
+            "certificate_hash": "5d939e3c16d27921b05782e8866e574067b35276"
+          }
+        },
+        {
+          "client_id": "97311447993-bu9uqmfj5e5vuhkiilaa86hcdec0g8vh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fitchat",
+            "certificate_hash": "984f4163de10e61698b71fbe3306207bd3729956"
+          }
+        },
+        {
           "client_id": "97311447993-a0gm2t557t128fdnqib8bcp8ooe9m7h6.apps.googleusercontent.com",
           "client_type": 3
         }
