@@ -31,27 +31,11 @@ const slides = [
 ];
 
 class App extends Component {
-
   async componentDidMount() {
     const isSignedIn = await GoogleSignin.isSignedIn()
     if(!this.props.isFirstLaunch && !isSignedIn) {
       this._onDone()
-    } else {
-      await this.transaction()
     }
-  }
-
-  async transaction() {
-    const user = await GoogleSignin.getCurrentUser()
-    const ref = firebase.firestore().collection('users').doc(user.user.id)
-    ref.set({
-      currentExName: "",
-      currentStep: 0,
-      currentStepEx: 0,
-      name: user.user.givenName,
-      userId: user.user.id
-    })
-
   }
 
   async _onDone() {

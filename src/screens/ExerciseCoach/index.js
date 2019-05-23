@@ -16,6 +16,7 @@ import auth from './auth.json';
 import Voice from 'react-native-voice';
 import Tts from 'react-native-tts';
 
+import firebase from 'react-native-firebase';
 import { GoogleSignin } from 'react-native-google-signin';
 
 const COACH = {
@@ -25,41 +26,54 @@ const COACH = {
 }
 
 export default class ExerciseCoach extends Component {
-
   constructor(props) {
     super(props)
     this.state = {
-      messages: [{
-        _id: 1,
-        text: "Hello, I'am your coach bot. Say something!",
-        createdAt: new Date(),
-        user: COACH
-      }],
+      messages: [],
       isMicOn: false,
       isSpeaking: false
     };
+
+    this.user = {}
   }
 
   async componentDidMount() {
-    await Dialogflow_V2.setConfiguration( //V2 configuration (for text query)
-      auth.client_email,
-      auth.private_key,
-      Dialogflow_V2.LANG_ENGLISH,
-      auth.project_id
-    );
+    const user = await GoogleSignin.getCurrentUser() //setting the user
+    this.user = user.user
+
+    this._resetFirestoreUser() //update firestore
 
     Tts.addEventListener('tts-finish', (event) => { //start a new Listening when speech end
       this.setState({isSpeaking: false})
       this._startListening()
     });
 
+    await Dialogflow_V2.setConfiguration( //V2 configuration
+      auth.client_email,
+      auth.private_key,
+      Dialogflow_V2.LANG_ENGLISH,
+      auth.project_id
+    );
 
-    const user = await GoogleSignin.getCurrentUser()
-    Dialogflow_V2.requestQuery(
-      "set " + user.user.id,
-      result => console.log(result),
+    Dialogflow_V2.requestQuery( //sending the current user id to the bot
+      "set " + this.user.id,
+      result => this._sendBotMessage(result.queryResult.fulfillmentMessages[0].text.text),
       error => console.log(error)
     );
+  }
+
+  componentWillUnmount() {
+    this._resetFirestoreUser()
+  }
+
+  _resetFirestoreUser() {
+    const ref = firebase.firestore().collection('users').doc(this.user.id) //update firestore
+    ref.set({
+      currentExName: "",
+      currentStep: 0,
+      currentStepEx: 0,
+      userId: this.user.id
+    })
   }
 
   _sendBotMessage(text) { //send a bot response
