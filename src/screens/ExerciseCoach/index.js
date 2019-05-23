@@ -6,10 +6,12 @@ import {
   Toast,
   Root
 } from 'native-base';
+import { View, TouchableOpacity } from 'react-native'
 import HeaderBar from '../../components/HeaderBar';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { GiftedChat } from 'react-native-gifted-chat';
+import { GiftedChat, Bubble } from 'react-native-gifted-chat';
+import SlackMessage from './SlackMessage';
 import { Dialogflow_V2 } from 'react-native-dialogflow';
 import auth from './auth.json';
 
@@ -21,7 +23,7 @@ import { GoogleSignin } from 'react-native-google-signin';
 
 const COACH = {
   _id: 2,
-  name: "React Native",
+  name: "Exercise Coach",
   avatar: "https://placeimg.com/140/140/any"
 }
 
@@ -63,7 +65,7 @@ export default class ExerciseCoach extends Component {
   }
 
   componentWillUnmount() {
-    this._resetFirestoreUser()
+    this._resetFirestoreUser() //update firestor
   }
 
   _resetFirestoreUser() {
@@ -94,7 +96,7 @@ export default class ExerciseCoach extends Component {
       _id: this.state.messages.length + 1,
       text,
       createdAt: new Date(),
-      user: {_id: 1}
+      user: { _id: 1, name: this.user.givenName, avatar: this.user.photo }
     };
 
     this.setState(previousState => ({
@@ -102,7 +104,7 @@ export default class ExerciseCoach extends Component {
     }));
   }
 
-  _speak(text) {
+  _speak(text) { //speak using tts
     if(!this.state.isMicOn) {
       Tts.getInitStatus().then(() => {
         this._stopListening()
@@ -162,11 +164,11 @@ export default class ExerciseCoach extends Component {
     }
   }
 
-  _stopListening() {
+  _stopListening() { //cancel a started listening
     Voice.stop((res)=> console.log(res))
   }
 
-  _renderInputToolbar(props) {
+  _renderInputToolbar(props) { //mic button render
     return (
       <Button
         style={{alignSelf: 'center'}}
@@ -183,6 +185,35 @@ export default class ExerciseCoach extends Component {
     )
   }
 
+  renderMessage(props) {
+    const { currentMessage: { text: currText } } = props;
+    return (
+      <SlackMessage {...props}/>
+    );
+  }
+
+  renderBubble(props) {
+    const msgHeader = (
+      <Text
+        style={{
+          fontSize: 15,
+          color: 'grey',
+          marginLeft: props.currentMessage.user._id == 2 ? 10 : 0,
+          marginRight: props.currentMessage.user._id == 2 ? 0 : 10,
+          alignSelf: props.currentMessage.user._id == 2 ? 'flex-start' : 'flex-end'}}
+      >
+        {props.currentMessage.user.name}
+      </Text>
+    )
+
+    return (
+      <View>
+        {msgHeader}
+        <Bubble {...props}  />
+      </View>
+    );
+  }
+
   render() {
     return (
       <Container>
@@ -191,12 +222,15 @@ export default class ExerciseCoach extends Component {
           <GiftedChat
             messages={this.state.messages}
             onSend={messages => this._onSend(messages)}
-            user={{ _id: 1 }}
+            user={{ _id: 1, name: this.user.givenName, avatar: this.user.photo }}
             renderInputToolbar={this._renderInputToolbar}
             context={this}
+
+            renderBubble={this.renderBubble}
           />
         </Root>
       </Container>
     );
   }
 }
+/*renderMessage={this.renderMessage}*/
