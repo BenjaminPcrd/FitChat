@@ -6,6 +6,7 @@ import com.facebook.react.ReactApplication;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
+import io.invertase.firebase.firestore.RNFirebaseFirestorePackage;
 import com.github.wuxudong.rncharts.MPAndroidChartPackage;
 import net.no_mad.tts.TextToSpeechPackage;
 import com.wenkesj.voice.VoicePackage;
@@ -33,16 +34,17 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RNGoogleSigninPackage(),
-            new RNFirebaseAuthPackage(),
-            new RNFirebasePackage(),
-            new MPAndroidChartPackage(),
-            new TextToSpeechPackage(),
-            new VoicePackage(),
-            new RNApiAiPackage(),
-            new VectorIconsPackage(),
-            new GoogleFitPackage(BuildConfig.APPLICATION_ID),
-            new RNGestureHandlerPackage()
+          new RNFirebaseFirestorePackage(),
+          new RNGoogleSigninPackage(),
+          new RNFirebaseAuthPackage(),
+          new RNFirebasePackage(),
+          new MPAndroidChartPackage(),
+          new TextToSpeechPackage(),
+          new VoicePackage(),
+          new RNApiAiPackage(),
+          new VectorIconsPackage(),
+          new GoogleFitPackage(BuildConfig.APPLICATION_ID),
+          new RNGestureHandlerPackage()
       );
     }
 

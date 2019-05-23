@@ -36,9 +36,6 @@ class App extends Component {
     const isSignedIn = await GoogleSignin.isSignedIn()
     if(!this.props.isFirstLaunch && !isSignedIn) {
       this._onDone()
-    } else {
-      const user = await GoogleSignin.getCurrentUser()
-      console.log(user)
     }
   }
 

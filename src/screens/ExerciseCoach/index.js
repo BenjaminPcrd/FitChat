@@ -16,6 +16,8 @@ import auth from './auth.json';
 import Voice from 'react-native-voice';
 import Tts from 'react-native-tts';
 
+import firebase from 'react-native-firebase'
+
 const COACH = {
   _id: 2,
   name: "React Native",
@@ -50,6 +52,10 @@ export default class ExerciseCoach extends Component {
       this.setState({isSpeaking: false})
       this._startListening()
     });
+
+
+    const ref = firebase.firestore().collection('test')
+    ref.add({id: 1})
   }
 
   _sendBotMessage(text) { //send a bot response

@@ -7,7 +7,6 @@ import Settings from '../screens/Traxivity/Settings'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Dimensions } from 'react-native'
 
-
 import { YellowBox } from 'react-native';
 YellowBox.ignoreWarnings(['ViewPagerAndroid']);
 
@@ -45,25 +44,25 @@ const TraxivityDrawer = createDrawerNavigator(
 
 const TabNavigator = createMaterialTopTabNavigator(
   {
-    Traxivity: {
-      screen : TraxivityDrawer,
-      navigationOptions: {
-        tabBarLabel: 'Traxivity',
-        tabBarIcon: ({ focused, horizontal, tintColor }) => { return <Icon name={'walk'} size={25} color={tintColor} /> }
-      }
-    },
     ExerciseCoach: {
       screen: ExerciseCoach,
       navigationOptions: {
         tabBarLabel: 'Exercise Coach',
         tabBarIcon: ({ focused, horizontal, tintColor }) => { return <Icon name={'voice'} size={25} color={tintColor} /> }
       }
+    },
+    Traxivity: {
+      screen : TraxivityDrawer,
+      navigationOptions: {
+        tabBarLabel: 'Traxivity',
+        tabBarIcon: ({ focused, horizontal, tintColor }) => { return <Icon name={'walk'} size={25} color={tintColor} /> }
+      }
     }
   },
   {
-    lazy: true,
+    lazy: false,
     bounces: false,
-    initialRouteName: "Traxivity",
+    initialRouteName: "ExerciseCoach",
     tabBarPosition: 'bottom',
     tabBarOptions: {
       activeTintColor: 'rgb(70, 70, 200)', //blue
