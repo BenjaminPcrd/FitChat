@@ -1,10 +1,9 @@
 import { createDrawerNavigator, createMaterialTopTabNavigator, createAppContainer } from 'react-navigation';
 import React from "react";
-import VoiceBot from '../screens/VoiceBot';
+import ExerciseCoach from '../screens/ExerciseCoach';
 import Traxivity from '../screens/Traxivity';
 import NewGoal from '../screens/Traxivity/NewGoal'
 import Settings from '../screens/Traxivity/Settings'
-import Exercises from '../screens/Exercises';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Dimensions } from 'react-native'
 
@@ -46,13 +45,6 @@ const TraxivityDrawer = createDrawerNavigator(
 
 const TabNavigator = createMaterialTopTabNavigator(
   {
-    VoiceBot: {
-      screen: VoiceBot,
-      navigationOptions: {
-        tabBarLabel: 'Voice Bot',
-        tabBarIcon: ({ focused, horizontal, tintColor }) => { return <Icon name={'voice'} size={25} color={tintColor} /> }
-      }
-    },
     Traxivity: {
       screen : TraxivityDrawer,
       navigationOptions: {
@@ -60,18 +52,18 @@ const TabNavigator = createMaterialTopTabNavigator(
         tabBarIcon: ({ focused, horizontal, tintColor }) => { return <Icon name={'walk'} size={25} color={tintColor} /> }
       }
     },
-    Exercises: {
-      screen: Exercises,
+    ExerciseCoach: {
+      screen: ExerciseCoach,
       navigationOptions: {
-        tabBarLabel: 'Exercises',
-        tabBarIcon: ({ focused, horizontal, tintColor }) => { return <Icon name={'weight'} size={25} color={tintColor} /> }
+        tabBarLabel: 'Exercise Coach',
+        tabBarIcon: ({ focused, horizontal, tintColor }) => { return <Icon name={'voice'} size={25} color={tintColor} /> }
       }
     }
   },
   {
     lazy: true,
     bounces: false,
-    initialRouteName: "VoiceBot",
+    initialRouteName: "Traxivity",
     tabBarPosition: 'bottom',
     tabBarOptions: {
       activeTintColor: 'rgb(70, 70, 200)', //blue

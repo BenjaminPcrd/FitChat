@@ -22,7 +22,7 @@ const COACH = {
   avatar: "https://placeimg.com/140/140/any"
 }
 
-export default class VoiceBot extends Component {
+export default class ExerciseCoach extends Component {
 
   constructor(props) {
     super(props)
