@@ -9,8 +9,8 @@ import { GoogleSignin } from 'react-native-google-signin';
 const slides = [
   {
     key: '1',
-    title: 'Voice Bot',
-    text: 'Description Voice Bot',
+    title: 'Exercise Coach',
+    text: 'Description Exercise Coach',
     image: null, //require('./assets/toto.jpeg'),
     backgroundColor: '#59b2ab',
   },
@@ -20,13 +20,6 @@ const slides = [
     text: 'Description Traxivity',
     image: null,
     backgroundColor: '#febe29',
-  },
-  {
-    key: '3',
-    title: 'Exercises',
-    text: 'Description Exercises',
-    image: null,
-    backgroundColor: '#22bcb5',
   }
 ];
 
