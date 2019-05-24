@@ -10,7 +10,8 @@ import { View, TouchableOpacity } from 'react-native'
 import HeaderBar from '../../components/HeaderBar';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import { GiftedChat, Bubble } from 'react-native-gifted-chat';
+import { GiftedChat, Bubble, utils } from 'react-native-gifted-chat';
+const { isSameUser } = utils;
 import SlackMessage from './SlackMessage';
 import { Dialogflow_V2 } from 'react-native-dialogflow';
 import auth from './auth.json';
@@ -25,6 +26,12 @@ const COACH = {
   _id: 2,
   name: "Exercise Coach",
   avatar: "https://placeimg.com/140/140/any"
+}
+
+Number.prototype.pad = function(size) {
+  var s = String(this);
+  while (s.length < (size || 2)) {s = "0" + s;}
+  return s;
 }
 
 export default class ExerciseCoach extends Component {
@@ -193,8 +200,8 @@ export default class ExerciseCoach extends Component {
   }
 
   renderBubble(props) {
-    let time = props.currentMessage.createdAt.getHours() + ":" + props.currentMessage.createdAt.getMinutes()
-    const msgHeader = (
+    let time = props.currentMessage.createdAt.getHours().pad(2) + ":" + props.currentMessage.createdAt.getMinutes().pad(2)
+    const msgHeader = isSameUser(props.currentMessage, props.previousMessage) ? null : (
       <Text
         style={{
           fontSize: 15,
