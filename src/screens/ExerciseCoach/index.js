@@ -193,6 +193,7 @@ export default class ExerciseCoach extends Component {
   }
 
   renderBubble(props) {
+    let time = props.currentMessage.createdAt.getHours() + ":" + props.currentMessage.createdAt.getMinutes()
     const msgHeader = (
       <Text
         style={{
@@ -202,7 +203,9 @@ export default class ExerciseCoach extends Component {
           marginRight: props.currentMessage.user._id == 2 ? 0 : 10,
           alignSelf: props.currentMessage.user._id == 2 ? 'flex-start' : 'flex-end'}}
       >
+        {props.currentMessage.user._id == 2 ? '' : time + " - "}
         {props.currentMessage.user.name}
+        {props.currentMessage.user._id == 2 ? " - " + time : ''}
       </Text>
     )
 
@@ -225,7 +228,7 @@ export default class ExerciseCoach extends Component {
             user={{ _id: 1, name: this.user.givenName, avatar: this.user.photo }}
             renderInputToolbar={this._renderInputToolbar}
             context={this}
-
+            renderTime={() => null}
             renderBubble={this.renderBubble}
           />
         </Root>
