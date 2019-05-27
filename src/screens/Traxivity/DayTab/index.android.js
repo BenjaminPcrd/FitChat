@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { authorize, getPeriodStepCount, getPeriodDistance, getPeriodCalorie } from '../../../api/googleFitApi'
 import DayProgress from './DayProgress'
-import { setFSUserDailyStepGoal } from '../../../api/firestoreUtils'
+import { setFSUserDailyStepGoal, setFSUserPastWeeksSteps } from '../../../api/firestoreUtils'
 
 class DayTab extends Component {
   constructor(props) {
@@ -25,8 +25,22 @@ class DayTab extends Component {
   }
 
   componentDidMount() {
-    authorize(() => this.getInfos())
+    authorize(() => {
+      this.getInfos()
+      this._sendWeekInfoToDB()
+    })
     setFSUserDailyStepGoal(this.props.user, this.props.goal)
+  }
+
+  _sendWeekInfoToDB() {
+    var start = new Date()
+    var end = new Date()
+    var nbDays = start.getDay();
+    if(nbDays == 0) nbDays = 7
+    start.setDate(start.getDate() - (nbDays-1))
+    start.setHours(0, 0, 0, 0)
+    end.setHours(23, 59, 59, 999  )
+    getPeriodStepCount(start, end).then(res => setFSUserPastWeeksSteps(this.props.user, res))
   }
 
   async getInfos() {

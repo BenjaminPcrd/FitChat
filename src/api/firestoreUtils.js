@@ -33,3 +33,13 @@ export function setFSUserDailyStepGoal(user, goal) {
     })
   }).catch(err => console.warn("setFSUserDailyStepGoal failed", err))
 }
+
+export function setFSUserPastWeeksSteps(user, tabStep) {
+  const ref = firebase.firestore().collection('users').doc(user.id) //update firestore
+  firebase.firestore().runTransaction(async transaction => {
+    const doc = await transaction.get(ref)
+    transaction.update(ref, {
+      stepArray: tabStep
+    })
+  }).catch(err => console.warn("setFSUserPastWeeksSteps failed", err))
+}
