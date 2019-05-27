@@ -25,6 +25,7 @@ const slides = [
 
 class App extends Component {
   async componentDidMount() {
+    console.log(this.props)
     const isSignedIn = await GoogleSignin.isSignedIn()
     if(!this.props.isFirstLaunch && !isSignedIn) {
       this._onDone()
@@ -60,6 +61,7 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
+  console.log(state)
   return {
     isFirstLaunch: state.setIsFirstLaunch.isFirstLaunch,
   }

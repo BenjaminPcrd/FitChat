@@ -12,15 +12,14 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import { GiftedChat, Bubble, utils } from 'react-native-gifted-chat';
 const { isSameUser } = utils;
-import SlackMessage from './SlackMessage';
 import { Dialogflow_V2 } from 'react-native-dialogflow';
 import auth from './auth.json';
 
 import Voice from 'react-native-voice';
 import Tts from 'react-native-tts';
 
-import firebase from 'react-native-firebase';
 import { GoogleSignin } from 'react-native-google-signin';
+import { resetFSUser } from '../../api/firestoreUtils'
 
 const COACH = {
   _id: 2,
@@ -50,7 +49,7 @@ export default class ExerciseCoach extends Component {
     const user = await GoogleSignin.getCurrentUser() //setting the user
     this.user = user.user
 
-    this._resetFirestoreUser() //update firestore
+    resetFSUser(this.user) //update firestore
 
     Tts.addEventListener('tts-finish', (event) => { //start a new Listening when speech end
       this.setState({isSpeaking: false})
@@ -72,17 +71,7 @@ export default class ExerciseCoach extends Component {
   }
 
   componentWillUnmount() {
-    this._resetFirestoreUser() //update firestor
-  }
-
-  _resetFirestoreUser() {
-    const ref = firebase.firestore().collection('users').doc(this.user.id) //update firestore
-    ref.set({
-      currentExName: "",
-      currentStep: 0,
-      currentStepEx: 0,
-      userId: this.user.id
-    })
+    resetFSUser(this.user) //update firestore
   }
 
   _sendBotMessage(text) { //send a bot response
@@ -192,13 +181,6 @@ export default class ExerciseCoach extends Component {
     )
   }
 
-  renderMessage(props) {
-    const { currentMessage: { text: currText } } = props;
-    return (
-      <SlackMessage {...props}/>
-    );
-  }
-
   renderBubble(props) {
     let time = props.currentMessage.createdAt.getHours().pad(2) + ":" + props.currentMessage.createdAt.getMinutes().pad(2)
     const msgHeader = isSameUser(props.currentMessage, props.previousMessage) ? null : (
@@ -243,4 +225,3 @@ export default class ExerciseCoach extends Component {
     );
   }
 }
-/*renderMessage={this.renderMessage}*/

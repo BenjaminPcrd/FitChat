@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
 import HeaderBar from '../../components/HeaderBar';
 import { DatePickerAndroid } from 'react-native';
 import {
@@ -8,14 +9,30 @@ import {
   TabHeading,
   Text
 } from 'native-base';
+
+import { setFSUserDailyStepGoal } from '../../api/firestoreUtils'
+import { GoogleSignin } from 'react-native-google-signin';
+
 import SideBar from './SideBar';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import DayTab from './DayTab';
 import WeekTab from './WeekTab';
 
-export default class Traxivity extends Component {
+class Traxivity extends Component {
+  constructor(props) {
+    super(props)
+    this.user = {}
+  }
+
   state = {
     selectedDay: new Date()
+  }
+
+  async componentDidMount() {
+    const user = await GoogleSignin.getCurrentUser() //setting the user
+    this.user = user.user
+
+    setFSUserDailyStepGoal(this.user, this.props.goal)
   }
 
   async datePicker() {
@@ -54,3 +71,11 @@ export default class Traxivity extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    goal: state.setNewGoal.goal
+  }
+}
+
+export default connect(mapStateToProps)(Traxivity)
