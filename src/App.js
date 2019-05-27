@@ -25,7 +25,6 @@ const slides = [
 
 class App extends Component {
   async componentDidMount() {
-    console.log(this.props)
     const isSignedIn = await GoogleSignin.isSignedIn()
     if(!this.props.isFirstLaunch && !isSignedIn) {
       this._onDone()
@@ -46,9 +45,9 @@ class App extends Component {
     const user = await GoogleSignin.signIn()
     const credential = firebase.auth.GoogleAuthProvider.credential(user.idToken, 'xoY16mVZdhjfiGCho6E66jAN')
     const firebaseUserCredential = await firebase.auth().signInWithCredential(credential)
-    console.log(firebaseUserCredential)
 
     this.props.dispatch({ type: "SET_IS_FIRST_LAUNCH", value: false })
+    this.props.dispatch({ type: "SET_NEW_USER", value: user.user })
   }
 
   render() {
@@ -61,9 +60,9 @@ class App extends Component {
 }
 
 const mapStateToProps = (state) => {
-  console.log(state)
   return {
     isFirstLaunch: state.setIsFirstLaunch.isFirstLaunch,
+    user: state.setUser.user
   }
 }
 

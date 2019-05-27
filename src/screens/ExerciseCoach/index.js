@@ -18,7 +18,7 @@ import auth from './auth.json';
 import Voice from 'react-native-voice';
 import Tts from 'react-native-tts';
 
-import { GoogleSignin } from 'react-native-google-signin';
+import { connect } from 'react-redux';
 import { resetFSUser } from '../../api/firestoreUtils'
 
 const COACH = {
@@ -33,7 +33,7 @@ Number.prototype.pad = function(size) {
   return s;
 }
 
-export default class ExerciseCoach extends Component {
+class ExerciseCoach extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -41,16 +41,9 @@ export default class ExerciseCoach extends Component {
       isMicOn: false,
       isSpeaking: false
     };
-
-    this.user = {}
   }
 
   async componentDidMount() {
-    const user = await GoogleSignin.getCurrentUser() //setting the user
-    this.user = user.user
-
-    resetFSUser(this.user) //update firestore
-
     Tts.addEventListener('tts-finish', (event) => { //start a new Listening when speech end
       this.setState({isSpeaking: false})
       this._startListening()
@@ -63,15 +56,17 @@ export default class ExerciseCoach extends Component {
       auth.project_id
     );
 
+    resetFSUser(this.props.user) //update firestore
+
     Dialogflow_V2.requestQuery( //sending the current user id to the bot
-      "set " + this.user.id,
+      "set " + this.props.user.id,
       result => this._sendBotMessage(result.queryResult.fulfillmentMessages[0].text.text),
       error => console.log(error)
     );
   }
 
   componentWillUnmount() {
-    resetFSUser(this.user) //update firestore
+    resetFSUser(this.props.user) //update firestore
   }
 
   _sendBotMessage(text) { //send a bot response
@@ -92,7 +87,7 @@ export default class ExerciseCoach extends Component {
       _id: this.state.messages.length + 1,
       text,
       createdAt: new Date(),
-      user: { _id: 1, name: this.user.givenName, avatar: this.user.photo }
+      user: { _id: 1, name: this.props.user.givenName, avatar: this.props.user.photo }
     };
 
     this.setState(previousState => ({
@@ -214,7 +209,7 @@ export default class ExerciseCoach extends Component {
           <GiftedChat
             messages={this.state.messages}
             onSend={messages => this._onSend(messages)}
-            user={{ _id: 1, name: this.user.givenName, avatar: this.user.photo }}
+            user={{ _id: 1, name: this.props.user.givenName, avatar: this.props.user.photo }}
             renderInputToolbar={this._renderInputToolbar}
             context={this}
             renderTime={() => null}
@@ -225,3 +220,11 @@ export default class ExerciseCoach extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.setUser.user
+  }
+}
+
+export default connect(mapStateToProps)(ExerciseCoach)

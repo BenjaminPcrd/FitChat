@@ -44,7 +44,7 @@ class WeekTab extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    goal: state.setNewGoal.goal
+    goal: state.setUser.userDailyStepGoal
   }
 }
 

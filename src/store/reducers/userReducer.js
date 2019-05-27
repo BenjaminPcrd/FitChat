@@ -12,12 +12,13 @@ function setUser(state = initialState, action) {
         user: action.value
       }
       return nextState || state
-    case 'SET_USER_GOAL':
+    case 'SET_USER_DAILY_STEP_GOAL':
       nextState = {
         ...state,
-        dailyStepGoal: action.value
+        userDailyStepGoal: action.value
       }
       return nextState || state
+
     default:
       return state
   }

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { authorize, getPeriodStepCount, getPeriodDistance, getPeriodCalorie } from '../../../api/googleFitApi'
 import DayProgress from './DayProgress'
+import { setFSUserDailyStepGoal } from '../../../api/firestoreUtils'
 
 class DayTab extends Component {
   constructor(props) {
@@ -25,6 +26,7 @@ class DayTab extends Component {
 
   componentDidMount() {
     authorize(() => this.getInfos())
+    setFSUserDailyStepGoal(this.props.user, this.props.goal)
   }
 
   async getInfos() {
@@ -59,7 +61,8 @@ class DayTab extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    goal: state.setNewGoal.goal
+    goal: state.setUser.userDailyStepGoal,
+    user: state.setUser.user
   }
 }
 

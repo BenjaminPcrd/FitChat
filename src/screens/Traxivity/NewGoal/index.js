@@ -12,6 +12,7 @@ import {
 import { Picker, Alert } from 'react-native';
 import { connect } from 'react-redux'
 import HeaderBar from '../../../components/HeaderBar';
+import { setFSUserDailyStepGoal } from '../../../api/firestoreUtils'
 
 class NewGoal extends Component {
   constructor(props) {
@@ -37,8 +38,9 @@ class NewGoal extends Component {
         {
           text: 'I agree',
           onPress: () => {
-            const action = { type: "SET_NEW_GOAL", value: Number(this.state.nbStep) }
+            const action = { type: "SET_USER_DAILY_STEP_GOAL", value: Number(this.state.nbStep) }
             this.props.dispatch(action)
+            setFSUserDailyStepGoal(this.props.user, action.value)
             this.props.navigation.navigate('Traxivity')
           }
         },
@@ -89,7 +91,8 @@ for (var i = 3000; i <= 50000; i = i + 500) {
 
 const mapStateToProps = (state) => {
   return {
-    goal: state.setNewGoal.goal
+    goal: state.setUser.userDailyStepGoal,
+    user: state.setUser.user
   }
 }
 
