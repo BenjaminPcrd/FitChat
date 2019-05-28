@@ -5,6 +5,7 @@ import Traxivity from '../screens/Traxivity';
 import NewGoal from '../screens/Traxivity/NewGoal'
 import TraxivitySettings from '../screens/Traxivity/Settings'
 import ExerciseCoachSettings from '../screens/ExerciseCoach/Settings'
+import ExerciseCoachInfo from '../screens/ExerciseCoach/ExerciseCoachInfo'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Dimensions } from 'react-native'
 
@@ -49,6 +50,9 @@ const ExerciseCoachStack = createStackNavigator(
     },
     Settings: {
       screen: ExerciseCoachSettings
+    },
+    Informations: {
+      screen: ExerciseCoachInfo
     }
   },
   {

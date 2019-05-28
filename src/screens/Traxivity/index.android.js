@@ -43,7 +43,8 @@ export default class Traxivity extends Component {
           onLeftButton={ () => this.props.navigation.openDrawer() }
           leftIcon="md-menu"
           onRightButton={ () => this.datePicker()}
-          rightLabel={this.state.selectedDay.toDateString()}/>
+          rightLabel={this.state.selectedDay.toDateString()}
+          rightIcon="md-calendar"/>
         <Tabs>
           <Tab heading={ <TabHeading><Icon name="calendar-today" size={25} color={"white"}/><Text>Day</Text></TabHeading>}>
             <DayTab selectedDay={this.state.selectedDay}/>

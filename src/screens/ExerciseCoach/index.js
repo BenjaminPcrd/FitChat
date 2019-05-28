@@ -44,7 +44,8 @@ class ExerciseCoach extends Component {
       messages: [],
       isMicOn: false,
       isSpeaking: false,
-      volume: 0
+      volume: 0,
+      active: true
     };
   }
 
@@ -228,7 +229,12 @@ class ExerciseCoach extends Component {
   render() {
     return (
       <Container>
-        <HeaderBar title='Exercise Coach' onLeftButton={ () => this.props.navigation.navigate('Settings') } leftIcon="ios-settings"/>
+        <HeaderBar
+          title='Exercise Coach'
+          onLeftButton={ () => this.props.navigation.navigate('Settings') }
+          leftIcon="ios-settings"
+          onRightButton={() => this.props.navigation.navigate('Informations')}
+          rightIcon="md-information-circle-outline"/>
         <Root>
           <GiftedChat
             messages={this.state.messages}
