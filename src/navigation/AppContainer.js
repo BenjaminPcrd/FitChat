@@ -1,11 +1,14 @@
 import { createDrawerNavigator, createStackNavigator, createMaterialTopTabNavigator, createAppContainer } from 'react-navigation';
 import React from "react";
+
 import ExerciseCoach from '../screens/ExerciseCoach';
 import Traxivity from '../screens/Traxivity';
 import NewGoal from '../screens/Traxivity/NewGoal'
 import TraxivitySettings from '../screens/Traxivity/Settings'
 import ExerciseCoachSettings from '../screens/ExerciseCoach/Settings'
 import ExerciseCoachInfo from '../screens/ExerciseCoach/ExerciseCoachInfo'
+import FitchatBot from '../screens/FitchatBot'
+
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Dimensions } from 'react-native'
 
@@ -76,6 +79,13 @@ const TabNavigator = createMaterialTopTabNavigator(
       navigationOptions: {
         tabBarLabel: 'Traxivity',
         tabBarIcon: ({ focused, horizontal, tintColor }) => { return <Icon name={'walk'} size={25} color={tintColor} /> }
+      }
+    },
+    FitchatBot: {
+      screen : FitchatBot,
+      navigationOptions: {
+        tabBarLabel: 'Fitchat Bot',
+        tabBarIcon: ({ focused, horizontal, tintColor }) => { return <Icon name={'robot'} size={25} color={tintColor} /> }
       }
     }
   },
