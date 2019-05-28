@@ -136,22 +136,27 @@ class ExerciseCoach extends Component {
     Voice.start('en-US')
 
     Voice.onSpeechResults = (res) => {
+      const words = ['louder', 'repeat', 'one more time']
       let speech = res.value[0]
       this._sendUserMessage(speech)
-      Dialogflow_V2.requestQuery(
-        speech,
-        async result => {
-          let results = result.queryResult.fulfillmentMessages.map(item => item.text.text[0])
-          if(results.length == 1) {
-            this._speak(results[0])
-          }
-          for(i = 0; i < results.length; i++) {
-            this._sendBotMessage(results[i])
-            await new Promise((resolve) => setTimeout(() => resolve(), 2000))
-          }
-        },
-        error => console.log(error)
-      );
+      if(words.indexOf(speech) != -1) { // if speech match with one of the words in []
+        this._speak(this.state.messages[1].text)
+      } else {
+        Dialogflow_V2.requestQuery(
+          speech,
+          async result => {
+            let results = result.queryResult.fulfillmentMessages.map(item => item.text.text[0])
+            if(results.length == 1) {
+              this._speak(results[0])
+            }
+            for(i = 0; i < results.length; i++) {
+              this._sendBotMessage(results[i])
+              await new Promise((resolve) => setTimeout(() => resolve(), 2000))
+            }
+          },
+          error => console.log(error)
+        );
+      }
     }
   }
 

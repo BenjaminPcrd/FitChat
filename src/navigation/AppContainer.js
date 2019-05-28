@@ -76,7 +76,7 @@ const TabNavigator = createMaterialTopTabNavigator(
     }
   },
   {
-    lazy: true,
+    lazy: false,
     bounces: false,
     initialRouteName: "ExerciseCoach",
     tabBarPosition: 'bottom',

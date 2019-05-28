@@ -2,7 +2,10 @@ const initialState = {
   startDayHour: 8,
   startDayMinute: 0,
   endDayHour: 22,
-  endDayMinute: 0
+  endDayMinute: 0,
+  speechSpeed: 0.5,
+  speechPitch: 1,
+  selectedVoice: 'en-GB-language'
 }
 
 function setStartEndDayTime(state = initialState, action) {
@@ -20,6 +23,24 @@ function setStartEndDayTime(state = initialState, action) {
         ...state,
         endDayHour: action.value.hour,
         endDayMinute: action.value.minute
+      }
+      return nextState || state
+    case 'SET_SPEECH_SPEED':
+      nextState = {
+        ...state,
+        speechSpeed: action.value
+      }
+      return nextState || state
+    case 'SET_SPEECH_PITCH':
+      nextState = {
+        ...state,
+        speechPitch: action.value
+      }
+      return nextState || state
+    case 'SET_SELECTED_VOICE':
+      nextState = {
+        ...state,
+        selectedVoice: action.value
       }
       return nextState || state
     default:
