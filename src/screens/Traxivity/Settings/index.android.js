@@ -64,7 +64,7 @@ class Settings extends Component {
   render() {
     return (
       <Container>
-        <HeaderBar title='Settings' onLeftButton={ () => this.props.navigation.openDrawer() } />
+        <HeaderBar title='Settings' onLeftButton={ () => this.props.navigation.openDrawer() } leftIcon="md-menu"/>
         <Container style={{justifyContent: 'space-evenly', margin: 20}}>
           <Text style={{textAlign: 'center', fontSize: 15}}>Select time below for the start and end of your day for sending you messages. Messages will not be sent outside of these hours.</Text>
           <Button full onPress={ () => this._showTimePicker('start') }>

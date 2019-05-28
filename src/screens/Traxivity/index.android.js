@@ -41,6 +41,7 @@ export default class Traxivity extends Component {
         <HeaderBar
           title='Traxivity'
           onLeftButton={ () => this.props.navigation.openDrawer() }
+          leftIcon="md-menu"
           onRightButton={ () => this.datePicker()}
           rightLabel={this.state.selectedDay.toDateString()}/>
         <Tabs>

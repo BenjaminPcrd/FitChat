@@ -54,7 +54,7 @@ class ExerciseCoach extends Component {
       auth.private_key,
       Dialogflow_V2.LANG_ENGLISH,
       auth.project_id
-    );
+    )
 
     resetFSUser(this.props.user) //update firestore
 
@@ -204,7 +204,7 @@ class ExerciseCoach extends Component {
   render() {
     return (
       <Container>
-        <HeaderBar title='Voice Bot' onLeftButton={ () => console.log("leftButton") }/>
+        <HeaderBar title='Exercise Coach' onLeftButton={ () => this.props.navigation.navigate('Settings') } leftIcon="ios-settings"/>
         <Root>
           <GiftedChat
             messages={this.state.messages}

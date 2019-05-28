@@ -27,7 +27,7 @@ export default class HeaderBar extends Component {
     if(this.props.onLeftButton) {
       return (
         <Button transparent onPress={this.props.onLeftButton}>
-          <Icon name={'md-menu'} size={35} color={'white'} />
+          <Icon name={this.props.leftIcon} size={35} color={'white'} />
         </Button>
       );
     }

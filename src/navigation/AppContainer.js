@@ -1,9 +1,10 @@
-import { createDrawerNavigator, createMaterialTopTabNavigator, createAppContainer } from 'react-navigation';
+import { createDrawerNavigator, createStackNavigator, createMaterialTopTabNavigator, createAppContainer } from 'react-navigation';
 import React from "react";
 import ExerciseCoach from '../screens/ExerciseCoach';
 import Traxivity from '../screens/Traxivity';
 import NewGoal from '../screens/Traxivity/NewGoal'
-import Settings from '../screens/Traxivity/Settings'
+import TraxivitySettings from '../screens/Traxivity/Settings'
+import ExerciseCoachSettings from '../screens/ExerciseCoach/Settings'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Dimensions } from 'react-native'
 
@@ -27,7 +28,7 @@ const TraxivityDrawer = createDrawerNavigator(
       }
     },
     Settings: {
-      screen: Settings,
+      screen: TraxivitySettings,
       navigationOptions: {
         drawerLabel: "Settings",
         drawerIcon: (<Icon name={'settings'} size={25} color={"black"} />)
@@ -41,11 +42,26 @@ const TraxivityDrawer = createDrawerNavigator(
   }
 );//contentComponent: props => <SideBar {...props} />
 
+const ExerciseCoachStack = createStackNavigator(
+  {
+    Coach: {
+      screen: ExerciseCoach
+    },
+    Settings: {
+      screen: ExerciseCoachSettings
+    }
+  },
+  {
+    initialRouteName: 'Coach',
+    headerMode: 'none'
+  }
+);
+
 
 const TabNavigator = createMaterialTopTabNavigator(
   {
     ExerciseCoach: {
-      screen: ExerciseCoach,
+      screen: ExerciseCoachStack,
       navigationOptions: {
         tabBarLabel: 'Exercise Coach',
         tabBarIcon: ({ focused, horizontal, tintColor }) => { return <Icon name={'voice'} size={25} color={tintColor} /> }
@@ -60,7 +76,7 @@ const TabNavigator = createMaterialTopTabNavigator(
     }
   },
   {
-    lazy: false,
+    lazy: true,
     bounces: false,
     initialRouteName: "ExerciseCoach",
     tabBarPosition: 'bottom',
