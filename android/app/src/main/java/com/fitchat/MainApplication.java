@@ -3,6 +3,7 @@ package com.fitchat;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.rtmalone.volumecontrol.RNVolumeControlPackage;
 import co.apptailor.googlesignin.RNGoogleSigninPackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
@@ -34,6 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNVolumeControlPackage(),
           new RNFirebaseFirestorePackage(),
           new RNGoogleSigninPackage(),
           new RNFirebaseAuthPackage(),

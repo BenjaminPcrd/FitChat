@@ -21,6 +21,10 @@ import Tts from 'react-native-tts';
 import { connect } from 'react-redux';
 import { resetFSUser } from '../../api/firestoreUtils'
 
+import VolumeControl, {
+  VolumeControlEvents
+} from "react-native-volume-control";
+
 const COACH = {
   _id: 2,
   name: "Exercise Coach",
@@ -39,7 +43,8 @@ class ExerciseCoach extends Component {
     this.state = {
       messages: [],
       isMicOn: false,
-      isSpeaking: false
+      isSpeaking: false,
+      volume: 0
     };
   }
 
@@ -63,7 +68,20 @@ class ExerciseCoach extends Component {
       result => this._sendBotMessage(result.queryResult.fulfillmentMessages[0].text.text),
       error => console.log(error)
     );
+
+    this.setState({
+      volume: await VolumeControl.getVolume()
+    });
+
+    this.volEvent = VolumeControlEvents.addListener(
+      "VolumeChanged",
+      this.volumeEvent
+    );
   }
+
+  volumeEvent = event => {
+    this.setState({ volume: event.volume });
+  };
 
   componentWillUnmount() {
     resetFSUser(this.props.user) //update firestore
@@ -140,6 +158,7 @@ class ExerciseCoach extends Component {
       let speech = res.value[0]
       this._sendUserMessage(speech)
       if(words.indexOf(speech) != -1) { // if speech match with one of the words in []
+        VolumeControl.change(this.state.volume + 0.2);
         this._speak(this.state.messages[1].text)
       } else {
         Dialogflow_V2.requestQuery(
