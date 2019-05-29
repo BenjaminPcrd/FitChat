@@ -44,7 +44,7 @@ export default class DayProgress extends Component {
     ).start(() => this.isAnimationEnd = true)
     this.animatedValue.addListener((res) => {
       this.setState({
-        circleProgressValue: res.value*(this.props.nbSteps/this.props.goal)*100,
+        circleProgressValue: res.value*((this.props.nbSteps/this.props.goal)*100 >= 100 ? 100 : (this.props.nbSteps/this.props.goal)*100),
         stepsProgressValue: (res.value*this.props.nbSteps).toFixed(0),
         calProgressValue: (res.value*this.props.nbCal).toFixed(0),
         kmProgressValue: (res.value*this.props.km).toFixed(2)

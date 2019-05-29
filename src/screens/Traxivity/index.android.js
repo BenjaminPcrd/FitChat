@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import HeaderBar from '../../components/HeaderBar';
-import { DatePickerAndroid } from 'react-native';
+import { DatePickerAndroid, AppState } from 'react-native';
 import {
   Container,
   Tabs,
@@ -16,8 +16,24 @@ import WeekTab from './WeekTab';
 
 export default class Traxivity extends Component {
   state = {
-    selectedDay: new Date()
+    selectedDay: new Date(),
+    appState: AppState.currentState,
   }
+
+  componentDidMount() {
+    AppState.addEventListener('change', this._handleAppStateChange);
+  }
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this._handleAppStateChange);
+  }
+
+  _handleAppStateChange = (nextAppState) => {
+    if(this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+      this.setState({selectedDay: new Date()});
+    }
+    this.setState({appState: nextAppState});
+  };
 
   async datePicker() {
     try {

@@ -10,3 +10,21 @@ export const userDBTemplate = {
   age: null,
   gender: "",
 }
+
+/*
+{
+  userId: "",
+  ec_data: {
+    currentExName: "",
+    currentStep: 0,
+    currentStepEx: 0
+  },
+  name: "",
+  dailyStepGoal: null,
+  location: "",
+  age: null,
+  gender: "",
+  height: null,
+  weight: null
+}
+*/

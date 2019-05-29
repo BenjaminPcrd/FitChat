@@ -32,7 +32,6 @@ class DayTab extends Component {
     getWeight().then(res => res ? setFSUserWeight(this.props.user, res) : null) // send weight to db
     getHeight().then(res => res ? setFSUserHeight(this.props.user, res.toFixed(2)) : null)  // send weight to db
     setFSUserDailyStepGoal(this.props.user, this.props.goal)  // send daily step goal to db
-
   }
 
   _sendWeekInfoToDB() {
