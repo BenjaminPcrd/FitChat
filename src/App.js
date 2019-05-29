@@ -37,7 +37,8 @@ class App extends Component {
         "https://www.googleapis.com/auth/userinfo.profile",
         "https://www.googleapis.com/auth/userinfo.email",
         "https://www.googleapis.com/auth/fitness.location.read",
-        "https://www.googleapis.com/auth/fitness.activity.read"
+        "https://www.googleapis.com/auth/fitness.activity.read",
+        "https://www.googleapis.com/auth/fitness.body.read"
       ],
       webClientId: '97311447993-a0gm2t557t128fdnqib8bcp8ooe9m7h6.apps.googleusercontent.com'
     })

@@ -1,4 +1,5 @@
 import firebase from 'react-native-firebase';
+import { userDBTemplate } from './userDBTemplate'
 
 export function resetFSUser(user) {
   const ref = firebase.firestore().collection('users').doc(user.id)
@@ -6,19 +7,15 @@ export function resetFSUser(user) {
     const doc = await transaction.get(ref)
     if(!doc.exists) {
       transaction.set(ref, {
-        currentExName: "",
-        currentStep: 0,
-        currentStepEx: 0,
+        ...userDBTemplate,
         name: user.givenName,
-        dailyStepGoal: 3500,
         userId: user.id,
       })
     } else {
       transaction.update(ref, {
-        currentExName: "",
-        currentStep: 0,
-        currentStepEx: 0,
+        ...userDBTemplate,
         name: user.givenName,
+        userId: user.id,
       })
     }
   }).catch(err => console.warn("resetFSUser failed", err))
@@ -46,4 +43,28 @@ export function setFSUserPastWeeksSteps(user, tabStep) {
       })
     }
   }).catch(err => console.warn("setFSUserPastWeeksSteps failed", err))
+}
+
+export function setFSUserWeight(user, weight) {
+  const ref = firebase.firestore().collection('users').doc(user.id) //update firestore
+  firebase.firestore().runTransaction(async transaction => {
+    const doc = await transaction.get(ref)
+    if(doc.exists) {
+      transaction.update(ref, {
+        weight: weight
+      })
+    }
+  }).catch(err => console.warn("setFSUserWeight failed", err))
+}
+
+export function setFSUserHeight(user, height) {
+  const ref = firebase.firestore().collection('users').doc(user.id) //update firestore
+  firebase.firestore().runTransaction(async transaction => {
+    const doc = await transaction.get(ref)
+    if(doc.exists) {
+      transaction.update(ref, {
+        height: height
+      })
+    }
+  }).catch(err => console.warn("setFSUserHeight failed", err))
 }

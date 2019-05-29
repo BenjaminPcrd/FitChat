@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
-import { authorize, getPeriodStepCount, getPeriodDistance, getPeriodCalorie } from '../../../api/googleFitApi'
+import { authorize, getPeriodStepCount, getPeriodDistance, getPeriodCalorie, getWeight, getHeight } from '../../../api/googleFitApi'
 import DayProgress from './DayProgress'
-import { setFSUserDailyStepGoal, setFSUserPastWeeksSteps } from '../../../api/firestoreUtils'
+import { setFSUserDailyStepGoal, setFSUserPastWeeksSteps, setFSUserWeight, setFSUserHeight } from '../../../api/firestoreUtils'
 
 class DayTab extends Component {
   constructor(props) {
@@ -24,12 +24,15 @@ class DayTab extends Component {
     }, () => this.getInfos())
   }
 
-  componentDidMount() {
-    authorize(() => {
-      this.getInfos()
-      this._sendWeekInfoToDB()
-    })
-    setFSUserDailyStepGoal(this.props.user, this.props.goal)
+  async componentDidMount() {
+    await authorize().then(() => console.log("AUTH_SUCESS")).catch(() => console.log("AUTH_ERROR"))
+    this.getInfos()
+    this._sendWeekInfoToDB()
+
+    getWeight().then(res => res ? setFSUserWeight(this.props.user, res) : null) // send weight to db
+    getHeight().then(res => res ? setFSUserHeight(this.props.user, res.toFixed(2)) : null)  // send weight to db
+    setFSUserDailyStepGoal(this.props.user, this.props.goal)  // send daily step goal to db
+
   }
 
   _sendWeekInfoToDB() {
