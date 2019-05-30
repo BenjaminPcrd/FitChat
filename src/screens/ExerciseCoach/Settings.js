@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import {
   Container,
-  Text
+  Text,
+  Button
 } from 'native-base';
 import {
   View,
   Dimensions,
   Slider,
   FlatList,
-  Button
+
 } from "react-native";
 import HeaderBar from '../../components/HeaderBar';
 import { connect } from 'react-redux'
+
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Tts from 'react-native-tts';
 
@@ -65,12 +68,18 @@ class Settings extends Component {
   renderVoiceItem = ({ item }) => {
     return (
       <Button
-        title={`${item.language} - ${item.name}`}
-        color={this.props.selectedVoice === item.id ? 'rgb(70, 70, 200)' : 'rgb(200, 200, 200)'}
+        full
+        style={{backgroundColor: this.props.selectedVoice === item.id ? 'rgb(70, 70, 200)' : 'rgb(200, 200, 200)'}}
         onPress={() => this.onVoicePress(item)}
-      />
+      ><Text>{`${item.language} - ${item.name}`}</Text></Button>
     );
   };
+
+  _speak() {
+    Tts.getInitStatus().then(() => {
+      Tts.speak("This is a test")
+    });
+  }
 
   render() {
     const screenWidth = Dimensions.get('window').width
@@ -116,16 +125,13 @@ class Settings extends Component {
               data={this.state.voices}
             />
           </View>
-          <Button
-            title="Reset default"
-            color='rgb(70, 70, 200)'
-            onPress={() => this._resetDefault()}
-          />
-          <Button
-            title="OK"
-            color='rgb(70, 70, 200)'
-            onPress={() => this.props.navigation.navigate('Coach')}
-          />
+
+          <View style={{flexDirection: 'row', width: screenWidth, justifyContent: 'space-around'}}>
+            <Button  onPress={() => this._resetDefault()}><Text>Reset default</Text></Button>
+            <Button transparent onPress={() => this._speak()}><Icon name="voice" size={40} color={'black'} style={{marginBottom: 0}}/></Button>
+          </View>
+
+          <Button style={{alignSelf: 'center'}} onPress={() => this.props.navigation.navigate('Coach')} ><Text>OK</Text></Button>
         </Container>
       </Container>
     );

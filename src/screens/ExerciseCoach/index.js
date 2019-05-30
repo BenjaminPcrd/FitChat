@@ -25,17 +25,21 @@ import VolumeControl, {
   VolumeControlEvents
 } from "react-native-volume-control";
 
+const icon = require("../../assets/chaticon.png")
 const COACH = {
   _id: 2,
   name: "Exercise Coach",
-  avatar: "https://placeimg.com/140/140/any"
+  avatar: icon
 }
+//"https://placeimg.com/140/140/any"
 
 Number.prototype.pad = function(size) {
   var s = String(this);
   while (s.length < (size || 2)) {s = "0" + s;}
   return s;
 }
+
+
 
 class ExerciseCoach extends Component {
   constructor(props) {
@@ -44,16 +48,13 @@ class ExerciseCoach extends Component {
       messages: [],
       isMicOn: false,
       isSpeaking: false,
-      volume: 0,
-      active: true
+      volume: 0
     };
+    this.isStateActive = true
   }
 
   async componentDidMount() {
-    Tts.addEventListener('tts-finish', (event) => { //start a new Listening when speech end
-      this.setState({isSpeaking: false})
-      this._startListening()
-    });
+    Tts.addEventListener('tts-finish', this._handleTtsListener);
 
     await Dialogflow_V2.setConfiguration( //V2 configuration
       auth.client_email,
@@ -79,6 +80,13 @@ class ExerciseCoach extends Component {
       this.volumeEvent
     );
   }
+
+  _handleTtsListener = (event) => {
+    if(this.isStateActive) {
+      this.setState({isSpeaking: false})
+      this._startListening()
+    }
+  };
 
   volumeEvent = event => {
     this.setState({ volume: event.volume });
@@ -227,11 +235,15 @@ class ExerciseCoach extends Component {
   }
 
   render() {
+    this.isStateActive = true
     return (
       <Container>
         <HeaderBar
           title='Exercise Coach'
-          onLeftButton={ () => this.props.navigation.navigate('Settings') }
+          onLeftButton={() => {
+            this.isStateActive = false
+            this.props.navigation.navigate('Settings')
+          }}
           leftIcon="ios-settings"
           onRightButton={() => this.props.navigation.navigate('Informations')}
           rightIcon="md-information-circle-outline"/>
