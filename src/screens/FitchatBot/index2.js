@@ -19,11 +19,6 @@ import Voice from 'react-native-voice';
 import Tts from 'react-native-tts';
 
 import { connect } from 'react-redux';
-import { resetFSUser } from '../../api/firestoreUtils'
-
-import VolumeControl, {
-  VolumeControlEvents
-} from "react-native-volume-control";
 
 const icon = require("../../assets/chaticon.png")
 const COACH = {
@@ -31,7 +26,6 @@ const COACH = {
   name: "Exercise Coach",
   avatar: icon
 }
-//"https://placeimg.com/140/140/any"
 
 Number.prototype.pad = function(size) {
   var s = String(this);
@@ -39,18 +33,14 @@ Number.prototype.pad = function(size) {
   return s;
 }
 
-
-
-class ExerciseCoach extends Component {
+class FitchatBot extends Component {
   constructor(props) {
     super(props)
     this.state = {
       messages: [],
       isMicOn: false,
-      isSpeaking: false,
-      volume: 0
+      isSpeaking: false
     };
-    this.isStateActive = true
   }
 
   async componentDidMount() {
@@ -63,21 +53,10 @@ class ExerciseCoach extends Component {
       auth.project_id
     )
 
-    resetFSUser(this.props.user) //update firestore
-
     Dialogflow_V2.requestQuery( //sending the current user id to the bot
       "set " + this.props.user.id,
       result => this._sendBotMessage(result.queryResult.fulfillmentMessages[0].text.text),
       error => console.log(error)
-    );
-
-    this.setState({
-      volume: await VolumeControl.getVolume()
-    });
-
-    this.volEvent = VolumeControlEvents.addListener(
-      "VolumeChanged",
-      this.volumeEvent
     );
   }
 
@@ -87,15 +66,6 @@ class ExerciseCoach extends Component {
       this._startListening()
     }
   };
-
-
-  volumeEvent = event => {
-    this.setState({ volume: event.volume });
-  };
-
-  componentWillUnmount() {
-    resetFSUser(this.props.user) //update firestore
-  }
 
   _sendBotMessage(text) { //send a bot response
     let msg = {
@@ -164,26 +134,23 @@ class ExerciseCoach extends Component {
     Voice.start('en-US')
 
     Voice.onSpeechResults = (res) => {
-      const words = ['louder', 'repeat', 'one more time']
       let speech = res.value[0]
       this._sendUserMessage(speech)
-      if(words.indexOf(speech) != -1) { // if speech match with one of the words in []
-        VolumeControl.change(this.state.volume + 0.2);
-        this._speak(this.state.messages[1].text)
-      } else {
-        Dialogflow_V2.requestQuery(
-          speech,
-          async result => {
-            let results = result.queryResult.fulfillmentMessages.map(item => item.text.text[0])
-            this._speak(results.join('.'))
-            for(i = 0; i < results.length; i++) {
-              this._sendBotMessage(results[i])
-              await new Promise((resolve) => setTimeout(() => resolve(), 2000))
-            }
-          },
-          error => console.log(error)
-        );
-      }
+      Dialogflow_V2.requestQuery(
+        speech,
+        async result => {
+          let results = result.queryResult.fulfillmentMessages.map(item => item.text.text[0])
+          if(results.length == 1) { //speak all the time
+            this._speak(results[0])
+          }
+          for(i = 0; i < results.length; i++) {
+            this._sendBotMessage(results[i])
+            await new Promise((resolve) => setTimeout(() => resolve(), 1000))
+          }
+        },
+        error => console.log(error)
+      );
+
     }
   }
 
@@ -196,7 +163,7 @@ class ExerciseCoach extends Component {
       <Button
         style={{alignSelf: 'center'}}
         onPress={() => {
-          if(!props.context.state.isMicOn && !props.context.state.isSpeaking) { //if isMicOn, stfu
+          if(!props.context.state.isMicOn && !props.context.state.isSpeaking) { //if isMicOn => stfu
             props.context._startListening()
           } else {
             props.context._stopListening()
@@ -238,14 +205,11 @@ class ExerciseCoach extends Component {
     return (
       <Container>
         <HeaderBar
-          title='Exercise Coach'
+          title='Fitchat Bot'
           onLeftButton={() => {
-            this.isStateActive = false
-            this.props.navigation.navigate('Settings')
+            console.log("button")
           }}
-          leftIcon="ios-settings"
-          onRightButton={() => this.props.navigation.navigate('Informations')}
-          rightIcon="md-information-circle-outline"/>
+          leftIcon="md-menu"/>
         <Root>
           <GiftedChat
             messages={this.state.messages}
@@ -268,4 +232,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(ExerciseCoach)
+export default connect(mapStateToProps)(FitchatBot)
