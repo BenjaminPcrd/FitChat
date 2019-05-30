@@ -10,6 +10,9 @@ import {
 
 import HourlyChart from './HourlyChart'
 
+const screenWidth = Dimensions.get('window').width
+const screenHeight = Dimensions.get('window').height
+
 export default class DayProgress extends Component {
   constructor(props) {
     super(props)
@@ -53,7 +56,6 @@ export default class DayProgress extends Component {
   }
 
   render() {
-    const screenWidth = Dimensions.get('window').width
     if(this.props.nbSteps != null && !this.isAnimationStart) {
       this.isAnimationStart = true
       this.animate()
@@ -64,11 +66,11 @@ export default class DayProgress extends Component {
     }
 
     return (
-      <Container style={{marginTop: 20}}>
+      <Container style={{marginTop: 10}}>
         <Container style={{flex: 4, alignItems: 'center'}}>
           <ProgressCircle
             percent={this.state.circleProgressValue}
-            radius={screenWidth/3}
+            radius={screenHeight/6}
             borderWidth={15}
             color="rgb(63, 81, 181)"
             shadowColor='#c8c8c8'
@@ -80,7 +82,7 @@ export default class DayProgress extends Component {
           </ProgressCircle>
         </Container>
 
-        <Container style={{flex: 1, flexDirection: 'row', marginTop: 20, justifyContent: 'center'}}>
+        <Container style={{flex: 1, flexDirection: 'row', marginTop: 10, justifyContent: 'center'}}>
           <Container style={{alignItems: 'flex-end'}}>
             <Text style={{ fontSize: 22 }}>{this.state.stepsProgressValue}</Text>
             <Text style={{ fontSize: 15, color: 'grey' }}>steps</Text>

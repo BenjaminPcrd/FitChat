@@ -6,7 +6,7 @@ import {
   Toast,
   Root
 } from 'native-base';
-import { View, TouchableOpacity } from 'react-native'
+import { View, TouchableOpacity, Dimensions } from 'react-native'
 import HeaderBar from '../../components/HeaderBar';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -39,7 +39,7 @@ Number.prototype.pad = function(size) {
   return s;
 }
 
-
+const screenWidth = Dimensions.get('window').width
 
 class ExerciseCoach extends Component {
   constructor(props) {
@@ -169,7 +169,7 @@ class ExerciseCoach extends Component {
       this._sendUserMessage(speech)
       if(words.indexOf(speech) != -1) { // if speech match with one of the words in []
         VolumeControl.change(this.state.volume + 0.2);
-        this._speak(this.state.messages[1].text)
+        this._speak(this.state.messages[1].text + ".")
       } else {
         Dialogflow_V2.requestQuery(
           speech,
@@ -178,7 +178,7 @@ class ExerciseCoach extends Component {
             this._speak(results.join('.'))
             for(i = 0; i < results.length; i++) {
               this._sendBotMessage(results[i])
-              await new Promise((resolve) => setTimeout(() => resolve(), 2000))
+              await new Promise((resolve) => setTimeout(() => resolve(), 1500))
             }
           },
           error => console.log(error)
@@ -194,7 +194,7 @@ class ExerciseCoach extends Component {
   _renderInputToolbar(props) { //mic button render
     return (
       <Button
-        style={{alignSelf: 'center'}}
+        style={{alignSelf: 'center', width: screenWidth/2, height: 70, justifyContent: 'center'}}
         onPress={() => {
           if(!props.context.state.isMicOn && !props.context.state.isSpeaking) { //if isMicOn, stfu
             props.context._startListening()
@@ -203,7 +203,7 @@ class ExerciseCoach extends Component {
           }
         }}
         transparent>
-        <Icon name="microphone" size={40} color={props.context.state.isMicOn ? 'red' : 'black'} style={{marginBottom: 15}}/>
+        <Icon name="microphone" size={50} color={props.context.state.isMicOn ? 'red' : 'black'} style={{marginBottom: 30}}/>
       </Button>
     )
   }
