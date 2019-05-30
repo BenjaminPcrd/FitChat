@@ -20,6 +20,13 @@ const slides = [
     text: 'Description Traxivity',
     image: null,
     backgroundColor: '#febe29',
+  },
+  {
+    key: '3',
+    title: 'Fitchat Bot',
+    text: 'Description Fitchat Bot',
+    image: null,
+    backgroundColor: '#743bd6',
   }
 ];
 
