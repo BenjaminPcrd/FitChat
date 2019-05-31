@@ -15,7 +15,7 @@ export default class HeaderBar extends Component {
   _showRightButton() {
     if(this.props.onRightButton) {
       return (
-        <Button transparent style={{backgroundColor: this.props.rightLabel ? 'rgba(0, 0, 0, 0.2)' : null}} onPress={this.props.onRightButton}>
+        <Button transparent style={{backgroundColor: this.props.rightLabel ? 'rgba(0, 0, 0, 0.2)' : 'rgba(0, 0, 0, 0.0)''}} onPress={this.props.onRightButton}>
           <Title style={{marginLeft: 5, marginRight: 10, fontSize: 13}}>{this.props.rightLabel}</Title>
           <Icon name={this.props.rightIcon} size={35} color={'white'} style={{marginRight: 5}} />
         </Button>
