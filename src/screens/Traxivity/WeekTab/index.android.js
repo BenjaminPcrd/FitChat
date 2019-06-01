@@ -25,11 +25,10 @@ class WeekTab extends Component {
   async getInfos() {
     var start = new Date(this.props.selectedDay.getFullYear(), this.props.selectedDay.getMonth(), this.props.selectedDay.getDate(), 0, 0, 0, 0)
     var end = new Date(this.props.selectedDay.getFullYear(), this.props.selectedDay.getMonth(), this.props.selectedDay.getDate(), 0, 0, 0, 0)
-    start.setDate(start.getDate())
-    end.setDate(end.getDate())
-    var nbDays = start.getDay();
+    /*var nbDays = start.getDay();
     if(nbDays == 0) nbDays = 7
-    start.setDate(start.getDate() - (nbDays-1))
+    start.setDate(start.getDate() - (nbDays-1))*/
+    start.setDate(start.getDate() - 6)
     start.setHours(0, 0, 0, 0)
     end.setHours(23, 59, 59, 999  )
 

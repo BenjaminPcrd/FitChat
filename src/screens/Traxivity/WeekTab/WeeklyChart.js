@@ -20,10 +20,10 @@ export default class WeeklyChart extends Component {
         barWidth: 0.5
       }
     }
-    let days = this.props.tabStep.map(item => item.date.split('-')[2])
-    //['Mon, '+days[0], 'Tue, '+days[1], 'Wed, '+days[2], 'Thu, '+days[3], 'Fri, '+days[4], 'Sat, '+days[5], 'Sun, '+days[6]],
+    let days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    let dataDays = this.props.tabStep.map(item => days[new Date(item.date).getDay()])
     const xAxis = {
-      valueFormatter: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      valueFormatter: dataDays,
       labelRotationAngle: 0,
       granularityEnabled: true,
       granularity : 1,
@@ -68,7 +68,7 @@ export default class WeeklyChart extends Component {
           chartDescription={{text: ''}}
           touchEnabled={true}
           marker={{enabled: true}}
-
+          highlights={[{x: 6}]}
         />
       </Container>
     )
