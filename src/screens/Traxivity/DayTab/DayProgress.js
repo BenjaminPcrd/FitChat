@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Dimensions, Animated, Easing, FlatList } from 'react-native'
-import ProgressCircle from 'react-native-progress-circle'
 import {
   Container,
   Text,
@@ -9,6 +8,8 @@ import {
 } from "native-base";
 
 import HourlyChart from './HourlyChart'
+
+import * as Progress from 'react-native-progress';
 
 const screenWidth = Dimensions.get('window').width
 const screenHeight = Dimensions.get('window').height
@@ -47,7 +48,7 @@ export default class DayProgress extends Component {
     ).start(() => this.isAnimationEnd = true)
     this.animatedValue.addListener((res) => {
       this.setState({
-        circleProgressValue: res.value*((this.props.nbSteps/this.props.goal)*100 >= 100 ? 100 : (this.props.nbSteps/this.props.goal)*100),
+        circleProgressValue: res.value*((this.props.nbSteps/this.props.goal) >= 1 ? 1 : (this.props.nbSteps/this.props.goal)),
         stepsProgressValue: (res.value*this.props.nbSteps).toFixed(0),
         calProgressValue: (res.value*this.props.nbCal).toFixed(0),
         kmProgressValue: (res.value*this.props.km).toFixed(2)
@@ -66,23 +67,21 @@ export default class DayProgress extends Component {
     }
 
     return (
-      <Container style={{marginTop: 10}}>
-        <Container style={{flex: 4, alignItems: 'center'}}>
-          <ProgressCircle
-            percent={this.state.circleProgressValue}
-            radius={screenHeight/6}
-            borderWidth={15}
-            color="rgb(63, 81, 181)"
-            shadowColor='#c8c8c8'
-            bgColor="white"
-          >
-            <Text style={{ fontSize: 20 }}>{(this.state.circleProgressValue).toFixed(0) + '% of goal'}</Text>
-            <Text style={{ fontSize: 14, marginTop: 20, color: 'grey' }}>Your daily goal:</Text>
-            <Text style={{ fontSize: 14 }}>{this.props.goal + ' steps'}</Text>
-          </ProgressCircle>
-        </Container>
+      <Container style={{marginTop: 10, alignItems: 'center'}}>
+        <Progress.Circle
+          style={{height: screenHeight/3}}
+          size={screenHeight/3}
+          progress={this.state.circleProgressValue}
+          animated={false}
+          thickness={10}
+          borderColor={"rgb(63, 81, 181)"}
+          color={"rgb(63, 81, 181)"}
+          showsText={true}
+        />
 
-        <Container style={{flex: 1, flexDirection: 'row', marginTop: 10, justifyContent: 'center'}}>
+        <Text style={{ fontSize: 14, margin: 10 }}>{"Goal: " + this.props.goal + ' steps'}</Text>
+
+        <Container style={{flex: 1, flexDirection: 'row'}}>
           <Container style={{alignItems: 'flex-end'}}>
             <Text style={{ fontSize: 22 }}>{this.state.stepsProgressValue}</Text>
             <Text style={{ fontSize: 15, color: 'grey' }}>steps</Text>
@@ -97,7 +96,7 @@ export default class DayProgress extends Component {
           </Container>
         </Container>
 
-        <Container style={{flex: 3, marginLeft: 5, marginRight: 5}}>
+        <Container style={{flex: 3, width: screenWidth, paddingLeft: 10}}>
           <HourlyChart tabStep={this.props.tabStep}/>
         </Container>
       </Container>
