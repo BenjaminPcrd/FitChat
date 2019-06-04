@@ -70,7 +70,7 @@ const TabNavigator = createMaterialTopTabNavigator(
     ExerciseCoach: {
       screen: ExerciseCoachStack,
       navigationOptions: {
-        tabBarLabel: 'Exercise Coach',
+        tabBarLabel: 'FitChat',
         tabBarIcon: ({ focused, horizontal, tintColor }) => { return <Icon name={'voice'} size={25} color={tintColor} /> }
       }
     },
@@ -79,13 +79,6 @@ const TabNavigator = createMaterialTopTabNavigator(
       navigationOptions: {
         tabBarLabel: 'Traxivity',
         tabBarIcon: ({ focused, horizontal, tintColor }) => { return <Icon name={'walk'} size={25} color={tintColor} /> }
-      }
-    },
-    FitchatBot: {
-      screen : FitchatBot,
-      navigationOptions: {
-        tabBarLabel: 'Fitchat Bot',
-        tabBarIcon: ({ focused, horizontal, tintColor }) => { return <Icon name={'robot'} size={25} color={tintColor} /> }
       }
     }
   },

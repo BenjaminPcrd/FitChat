@@ -164,7 +164,7 @@ class ExerciseCoach extends Component {
     Voice.start('en-US')
 
     Voice.onSpeechResults = (res) => {
-      const words = ['louder', 'repeat', 'one more time']
+      const words = ['louder']
       let speech = res.value[0]
       this._sendUserMessage(speech)
       if(words.indexOf(speech) != -1) { // if speech match with one of the words in []
@@ -238,7 +238,7 @@ class ExerciseCoach extends Component {
     return (
       <Container>
         <HeaderBar
-          title='Exercise Coach'
+          title='FitChat'
           onLeftButton={() => {
             this.isStateActive = false
             this.props.navigation.navigate('Settings')

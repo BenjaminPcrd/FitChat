@@ -33,6 +33,8 @@ export default class WeekProgress extends Component {
         <Container style={{flex: 5}}>
           <FlatList
             data={this.props.tabStep}
+            inverted={true}
+            initialScrollIndex={6}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({item, index}) => {
               return (
