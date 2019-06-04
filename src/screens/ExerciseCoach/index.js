@@ -194,7 +194,7 @@ class ExerciseCoach extends Component {
   _renderInputToolbar(props) { //mic button render
     return (
       <Button
-        style={{alignSelf: 'center', width: screenWidth/2, height: 70, justifyContent: 'center'}}
+        style={{alignSelf: 'center', justifyContent: 'center', backgroundColor: 'rgb(63, 81, 181)', borderRadius: 25, height: 50, width: 50}}
         onPress={() => {
           if(!props.context.state.isMicOn && !props.context.state.isSpeaking) { //if isMicOn, stfu
             props.context._startListening()
@@ -203,7 +203,7 @@ class ExerciseCoach extends Component {
           }
         }}
         transparent>
-        <Icon name="microphone" size={50} color={props.context.state.isMicOn ? 'red' : 'black'} style={{marginBottom: 30}}/>
+        <Icon name="microphone" size={50} color={props.context.state.isMicOn ? 'red' : 'white'}/>
       </Button>
     )
   }
@@ -251,10 +251,11 @@ class ExerciseCoach extends Component {
             messages={this.state.messages}
             onSend={messages => this._onSend(messages)}
             user={{ _id: 1, name: this.props.user.givenName, avatar: this.props.user.photo }}
-            renderInputToolbar={this._renderInputToolbar}
             context={this}
             renderTime={() => null}
+            renderInputToolbar={this._renderInputToolbar}
             renderBubble={this.renderBubble}
+            minInputToolbarHeight={60}
           />
         </Root>
       </Container>

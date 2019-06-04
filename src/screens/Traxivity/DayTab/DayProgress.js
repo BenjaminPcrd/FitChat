@@ -79,20 +79,18 @@ export default class DayProgress extends Component {
           showsText={true}
         />
 
-        <Text style={{ fontSize: 14, margin: 10 }}>{"Goal: " + this.props.goal + ' steps'}</Text>
-
         <Container style={{flex: 1, flexDirection: 'row'}}>
           <Container style={{alignItems: 'flex-end'}}>
-            <Text style={{ fontSize: 22 }}>{this.state.stepsProgressValue}</Text>
-            <Text style={{ fontSize: 15, color: 'grey' }}>steps</Text>
+            <Text style={{ fontSize: 25 }}>{this.state.stepsProgressValue}</Text>
+            <Text style={{ fontSize: 18, color: 'grey' }}>steps</Text>
           </Container>
           <Container style={{alignItems: 'center'}}>
-            <Text style={{ fontSize: 22 }}>{this.state.calProgressValue}</Text>
-            <Text style={{ fontSize: 15, color: 'grey' }}>cal</Text>
+            <Text style={{ fontSize: 25 }}>{this.state.calProgressValue}</Text>
+            <Text style={{ fontSize: 18, color: 'grey' }}>cal</Text>
           </Container>
           <Container style={{alignItems: 'flex-start'}}>
-            <Text style={{ fontSize: 22 }}>{this.state.kmProgressValue}</Text>
-            <Text style={{ fontSize: 15, color: 'grey' }}>km</Text>
+            <Text style={{ fontSize: 25 }}>{this.state.kmProgressValue}</Text>
+            <Text style={{ fontSize: 18, color: 'grey' }}>km</Text>
           </Container>
         </Container>
 
