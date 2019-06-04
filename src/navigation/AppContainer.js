@@ -89,6 +89,13 @@ const AppDrawer = createDrawerNavigator(
         drawerLabel: "New Step Goal",
         drawerIcon: (<Icon name={'walk'} size={25} color={"black"} />)
       }
+    },
+    ExerciseCoachInfo: {
+      screen: ExerciseCoachInfo,
+      navigationOptions: {
+        drawerLabel: "FitChat Infos ",
+        drawerIcon: (<Icon name={'information-outline'} size={25} color={"black"} />)
+      }
     }
   },
   {

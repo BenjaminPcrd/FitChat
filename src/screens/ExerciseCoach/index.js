@@ -244,7 +244,7 @@ class ExerciseCoach extends Component {
             this.props.navigation.openDrawer()
           }}
           leftIcon="md-menu"
-          onRightButton={() => this.props.navigation.navigate('Informations')}
+          onRightButton={() => this.props.navigation.navigate('ExerciseCoachInfo')}
           rightIcon="md-information-circle-outline"/>
         <Root>
           <GiftedChat

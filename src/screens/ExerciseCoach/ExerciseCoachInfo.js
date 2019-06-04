@@ -9,7 +9,7 @@ export default class ExerciseCoachInfo extends Component {
   render() {
     return (
       <Container>
-        <HeaderBar title='Help' onLeftButton={ () => this.props.navigation.navigate('Coach') } leftIcon="md-arrow-round-back"/>
+        <HeaderBar title='Help' onLeftButton={ () => this.props.navigation.navigate('TabNavigator') } leftIcon="md-arrow-round-back"/>
       </Container>
     );
   }
