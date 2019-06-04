@@ -94,6 +94,8 @@ class Settings extends Component {
               <Text  style={{fontSize: 20}}>{this.props.speechSpeed.toFixed(1)}</Text>
               <Slider
                 style={{width: screenWidth/2}}
+                thumbTintColor={'rgb(63, 81, 181)'}
+                minimumTrackTintColor={'rgb(63, 81, 181)'}
                 minimumValue={0.1}
                 maximumValue={1}
                 value={this.props.speechSpeed}
@@ -106,6 +108,8 @@ class Settings extends Component {
               <Text style={{fontSize: 20}}>{this.props.speechPitch.toFixed(1)}</Text>
               <Slider
                 style={{width: screenWidth/2}}
+                thumbTintColor={'rgb(63, 81, 181)'}
+                minimumTrackTintColor={'rgb(63, 81, 181)'}
                 minimumValue={0.5}
                 maximumValue={2}
                 value={this.props.speechPitch}
