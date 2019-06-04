@@ -41,7 +41,7 @@ class NewGoal extends Component {
             const action = { type: "SET_USER_DAILY_STEP_GOAL", value: Number(this.state.nbStep) }
             this.props.dispatch(action)
             setFSUserDailyStepGoal(this.props.user, action.value)
-            this.props.navigation.navigate('Traxivity')
+            this.props.navigation.navigate('TabNavigator')
           }
         },
       ],
@@ -52,7 +52,7 @@ class NewGoal extends Component {
   render() {
     return (
       <Container>
-        <HeaderBar title='Set New Goal' onLeftButton={ () => this.props.navigation.openDrawer() } leftIcon="md-menu"/>
+        <HeaderBar title='Set New Goal' onLeftButton={ () => this.props.navigation.navigate('TabNavigator') } leftIcon="md-arrow-round-back"/>
         <Container style={{margin: 20}} >
           <Container style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
             <Text style={{fontSize: 20}}>Week's goal: {this.props.goal} steps per day.</Text>

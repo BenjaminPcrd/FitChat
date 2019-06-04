@@ -86,7 +86,7 @@ class Settings extends Component {
     const screenHeight = Dimensions.get('window').height
     return (
       <Container>
-        <HeaderBar title='Settings' onLeftButton={ () => this.props.navigation.navigate('Coach') } leftIcon="md-arrow-round-back"/>
+        <HeaderBar title='Settings' onLeftButton={ () => this.props.navigation.navigate('TabNavigator') } leftIcon="md-arrow-round-back"/>
         <Container style={{flex: 1, alignItems: 'center', justifyContent: 'space-around'}}>
           <View>
             <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
@@ -135,7 +135,7 @@ class Settings extends Component {
             <Button transparent onPress={() => this._speak()}><Icon name="voice" size={40} color={'black'} style={{marginBottom: 0}}/></Button>
           </View>
 
-          <Button style={{alignSelf: 'center'}} onPress={() => this.props.navigation.navigate('Coach')} ><Text>OK</Text></Button>
+          <Button style={{alignSelf: 'center'}} onPress={() => this.props.navigation.navigate('TabNavigator')} ><Text>OK</Text></Button>
         </Container>
       </Container>
     );

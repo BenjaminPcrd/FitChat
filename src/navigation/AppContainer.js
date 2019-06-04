@@ -3,11 +3,13 @@ import React from "react";
 
 import ExerciseCoach from '../screens/ExerciseCoach';
 import Traxivity from '../screens/Traxivity';
+
+
 import NewGoal from '../screens/Traxivity/NewGoal'
 import TraxivitySettings from '../screens/Traxivity/Settings'
 import ExerciseCoachSettings from '../screens/ExerciseCoach/Settings'
 import ExerciseCoachInfo from '../screens/ExerciseCoach/ExerciseCoachInfo'
-import FitchatBot from '../screens/FitchatBot'
+
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Dimensions } from 'react-native'
@@ -15,67 +17,17 @@ import { Dimensions } from 'react-native'
 import { YellowBox } from 'react-native';
 YellowBox.ignoreWarnings(['ViewPagerAndroid']);
 
-const TraxivityDrawer = createDrawerNavigator(
-  {
-    Traxivity: {
-      screen: Traxivity,
-      navigationOptions: {
-        drawerLabel: "Traxivity",
-        drawerIcon: (<Icon name={'walk'} size={25} color={"black"} />)
-      }
-    },
-    NewGoal: {
-      screen: NewGoal,
-      navigationOptions: {
-        drawerLabel: "Set New Goal",
-        drawerIcon: (<Icon name={'target'} size={25} color={"black"} />)
-      }
-    },
-    Settings: {
-      screen: TraxivitySettings,
-      navigationOptions: {
-        drawerLabel: "Settings",
-        drawerIcon: (<Icon name={'settings'} size={25} color={"black"} />)
-      }
-    },
-  },
-  {
-    drawerType: 'slide',
-    drawerWidth: ((Dimensions.get('window').width)/3)*2,
-    initialRouteName: "Traxivity",
-  }
-);//contentComponent: props => <SideBar {...props} />
-
-const ExerciseCoachStack = createStackNavigator(
-  {
-    Coach: {
-      screen: ExerciseCoach
-    },
-    Settings: {
-      screen: ExerciseCoachSettings
-    },
-    Informations: {
-      screen: ExerciseCoachInfo
-    }
-  },
-  {
-    initialRouteName: 'Coach',
-    headerMode: 'none'
-  }
-);
-
-
 const TabNavigator = createMaterialTopTabNavigator(
   {
     ExerciseCoach: {
-      screen: ExerciseCoachStack,
+      screen: ExerciseCoach,
       navigationOptions: {
         tabBarLabel: 'FitChat',
         tabBarIcon: ({ focused, horizontal, tintColor }) => { return <Icon name={'voice'} size={25} color={tintColor} /> }
       }
     },
     Traxivity: {
-      screen : TraxivityDrawer,
+      screen : Traxivity,
       navigationOptions: {
         tabBarLabel: 'Traxivity',
         tabBarIcon: ({ focused, horizontal, tintColor }) => { return <Icon name={'walk'} size={25} color={tintColor} /> }
@@ -106,6 +58,47 @@ const TabNavigator = createMaterialTopTabNavigator(
     },
 
   }
-);
+)
 
-export default createAppContainer(TabNavigator)
+const AppDrawer = createDrawerNavigator(
+  {
+    TabNavigator: {
+      screen: TabNavigator,
+      navigationOptions: {
+        drawerLabel: "FitChat",
+        drawerIcon: (<Icon name={'voice'} size={25} color={"black"} />)
+      }
+    },
+    TraxivitySettings: {
+      screen: TraxivitySettings,
+      navigationOptions: {
+        drawerLabel: "Traxivity settings",
+        drawerIcon: (<Icon name={'settings'} size={25} color={"black"} />)
+      }
+    },
+    ExerciseCoachSettings: {
+      screen: ExerciseCoachSettings,
+      navigationOptions: {
+        drawerLabel: "FitChat Bot settings",
+        drawerIcon: (<Icon name={'settings'} size={25} color={"black"} />)
+      }
+    },
+    SetNewGoal: {
+      screen: NewGoal,
+      navigationOptions: {
+        drawerLabel: "New Step Goal",
+        drawerIcon: (<Icon name={'walk'} size={25} color={"black"} />)
+      }
+    }
+  },
+  {
+    drawerType: 'slide',
+    drawerWidth: (Dimensions.get('window').width)/3 * 2,
+    initialRouteName: "TabNavigator",
+    contentOptions: {
+      activeTintColor: 'rgb(63, 81, 181)',
+    }
+  }
+)
+
+export default createAppContainer(AppDrawer)

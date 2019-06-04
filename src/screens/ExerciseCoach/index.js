@@ -241,9 +241,9 @@ class ExerciseCoach extends Component {
           title='FitChat'
           onLeftButton={() => {
             this.isStateActive = false
-            this.props.navigation.navigate('Settings')
+            this.props.navigation.openDrawer()
           }}
-          leftIcon="ios-settings"
+          leftIcon="md-menu"
           onRightButton={() => this.props.navigation.navigate('Informations')}
           rightIcon="md-information-circle-outline"/>
         <Root>

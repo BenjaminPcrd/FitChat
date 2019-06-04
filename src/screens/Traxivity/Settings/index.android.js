@@ -27,7 +27,7 @@ class Settings extends Component {
         hour: startOrEnd == 'start' ? this.props.startDayHour : this.props.endDayHour,
         minute: startOrEnd == 'start' ? this.props.startDayMinute : this.props.endDayMinute,
         is24Hour: true,
-        mode: 'spinner'
+        mode: 'default'
       });
       if (action === TimePickerAndroid.timeSetAction) {
         var t = new Date('2019-01-01T' + hour.pad(2) + ':' + minute.pad(2) + ':00')
@@ -64,7 +64,7 @@ class Settings extends Component {
   render() {
     return (
       <Container>
-        <HeaderBar title='Settings' onLeftButton={ () => this.props.navigation.openDrawer() } leftIcon="md-menu"/>
+        <HeaderBar title='Settings' onLeftButton={ () => this.props.navigation.navigate('TabNavigator') } leftIcon="md-arrow-round-back"/>
         <Container style={{justifyContent: 'space-evenly', margin: 20}}>
           <Text style={{textAlign: 'center', fontSize: 15}}>Select time below for the start and end of your day for sending you messages. Messages will not be sent outside of these hours.</Text>
           <Button full onPress={ () => this._showTimePicker('start') }>
