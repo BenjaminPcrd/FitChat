@@ -224,11 +224,11 @@ class ExerciseCoach extends Component {
         {props.currentMessage.user._id == 2 ? " - " + time : ''}
       </Text>
     )
-
+    
     return (
       <View>
         {msgHeader}
-        <Bubble {...props}  />
+        <Bubble {...props} textStyle={{left: {fontSize: 18}, right: {fontSize: 18}}}/>
       </View>
     );
   }

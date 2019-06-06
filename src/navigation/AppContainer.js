@@ -100,7 +100,7 @@ const AppDrawer = createDrawerNavigator(
   },
   {
     drawerType: 'slide',
-    drawerWidth: (Dimensions.get('window').width)/3 * 2,
+    drawerWidth: (Dimensions.get('window').width)/4 * 3,
     initialRouteName: "TabNavigator",
     contentOptions: {
       activeTintColor: 'rgb(63, 81, 181)',

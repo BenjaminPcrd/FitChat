@@ -79,6 +79,8 @@ export default class DayProgress extends Component {
           showsText={true}
         />
 
+        <Text style={{ fontSize: 18, color: 'grey' }}>{"Daily goal: " + this.props.goal}</Text>
+
         <Container style={{flex: 1, flexDirection: 'row'}}>
           <Container style={{alignItems: 'flex-end'}}>
             <Text style={{ fontSize: 25 }}>{this.state.stepsProgressValue}</Text>
